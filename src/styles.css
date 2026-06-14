@@ -74,8 +74,8 @@
   --foreground: oklch(0.97 0.01 250);
   --ink: oklch(0.08 0.015 265);
   --bone: oklch(0.97 0.01 250);
-  --electric: oklch(0.74 0.19 156);
-  --electric-soft: oklch(0.72 0.2 258);
+  --electric: oklch(0.7 0.18 255);
+  --electric-soft: oklch(0.82 0.12 250);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
