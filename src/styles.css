@@ -59,8 +59,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --color-ink: var(--ink);
   --color-bone: var(--bone);
   --color-electric: var(--electric);
@@ -69,11 +70,11 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.04 0.012 265);
+  --background: oklch(0.08 0.015 265);
   --foreground: oklch(0.97 0.01 250);
-  --ink: oklch(0.04 0.012 265);
+  --ink: oklch(0.08 0.015 265);
   --bone: oklch(0.97 0.01 250);
-  --electric: oklch(0.62 0.27 262);
+  --electric: oklch(0.74 0.19 156);
   --electric-soft: oklch(0.72 0.2 258);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
