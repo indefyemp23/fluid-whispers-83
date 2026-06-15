@@ -66,6 +66,8 @@
   --color-bone: var(--bone);
   --color-electric: var(--electric);
   --color-electric-soft: var(--electric-soft);
+  --color-paper: var(--paper);
+  --color-paper-foreground: var(--paper-foreground);
 }
 
 :root {
