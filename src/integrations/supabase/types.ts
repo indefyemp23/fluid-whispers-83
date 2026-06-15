@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          ad_id: string | null
+          ad_name: string | null
+          adset_id: string | null
+          adset_name: string | null
+          campaign_id: string | null
+          campaign_name: string | null
+          company: string | null
+          created_at: string
+          email: string | null
+          fbc: string | null
+          fbclid: string | null
+          fbp: string | null
+          id: string
+          ip_address: string | null
+          landing_page: string | null
+          language: string | null
+          message: string
+          name: string | null
+          phone: string
+          placement: string | null
+          referrer: string | null
+          screen_height: number | null
+          screen_width: number | null
+          source: string | null
+          timezone: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          ad_id?: string | null
+          ad_name?: string | null
+          adset_id?: string | null
+          adset_name?: string | null
+          campaign_id?: string | null
+          campaign_name?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string | null
+          fbc?: string | null
+          fbclid?: string | null
+          fbp?: string | null
+          id?: string
+          ip_address?: string | null
+          landing_page?: string | null
+          language?: string | null
+          message: string
+          name?: string | null
+          phone: string
+          placement?: string | null
+          referrer?: string | null
+          screen_height?: number | null
+          screen_width?: number | null
+          source?: string | null
+          timezone?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          ad_id?: string | null
+          ad_name?: string | null
+          adset_id?: string | null
+          adset_name?: string | null
+          campaign_id?: string | null
+          campaign_name?: string | null
+          company?: string | null
+          created_at?: string
+          email?: string | null
+          fbc?: string | null
+          fbclid?: string | null
+          fbp?: string | null
+          id?: string
+          ip_address?: string | null
+          landing_page?: string | null
+          language?: string | null
+          message?: string
+          name?: string | null
+          phone?: string
+          placement?: string | null
+          referrer?: string | null
+          screen_height?: number | null
+          screen_width?: number | null
+          source?: string | null
+          timezone?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
