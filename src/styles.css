@@ -70,11 +70,13 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.08 0.015 265);
-  --foreground: oklch(0.97 0.01 250);
-  --ink: oklch(0.08 0.015 265);
-  --bone: oklch(0.97 0.01 250);
-  --electric: oklch(0.7 0.18 255);
+  --background: oklch(0.06 0 0);
+  --foreground: oklch(0.98 0 0);
+  --ink: oklch(0.06 0 0);
+  --bone: oklch(0.98 0 0);
+  --paper: oklch(0.985 0 0);
+  --paper-foreground: oklch(0.12 0 0);
+  --electric: oklch(0.72 0.17 255);
   --electric-soft: oklch(0.82 0.12 250);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
