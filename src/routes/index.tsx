@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import heroImg from "@/assets/hero.jpg";
+import { submitLead } from "@/lib/leads.functions";
+import { collectAttribution } from "@/lib/attribution";
 
 export const Route = createFileRoute("/")({
   head: () => ({
