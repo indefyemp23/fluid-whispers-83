@@ -267,14 +267,45 @@ function Check() {
 function ContactForm() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [messageLen, setMessageLen] = useState(0);
+  const submit = useServerFn(submitLead);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError(null);
+    const fd = new FormData(e.currentTarget);
+    const message = String(fd.get("message") ?? "").trim();
+    const phone = String(fd.get("phone") ?? "").trim();
+
+    if (!phone) return setError("Informe seu WhatsApp.");
+    if (!message) return setError("Conte como podemos ajudar.");
+    if (message.length > 1000) {
+      return setError("Mensagem muito longa. Máximo de 1000 caracteres.");
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await submit({
+        data: {
+          phone,
+          message,
+          name: String(fd.get("name") ?? "") || null,
+          email: String(fd.get("email") ?? "") || null,
+          company: String(fd.get("company") ?? "") || null,
+          attribution: collectAttribution(),
+        },
+      });
       setSent(true);
-    }, 800);
+    } catch (err) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Não foi possível enviar. Tente novamente.";
+      setError(msg.replace(/^Error:\s*/i, ""));
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -300,24 +331,36 @@ function ContactForm() {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Nome" name="name" type="text" placeholder="Seu nome" required />
+            <Field label="Nome" name="name" type="text" placeholder="Seu nome" />
             <Field label="Empresa" name="company" type="text" placeholder="Razão social" />
           </div>
-          <Field label="E-mail corporativo" name="email" type="email" placeholder="voce@empresa.com" required />
-          <Field label="WhatsApp" name="phone" type="tel" placeholder="+55 (11) 99999-9999" required />
+          <Field label="E-mail corporativo" name="email" type="email" placeholder="voce@empresa.com" />
+          <Field label="WhatsApp *" name="phone" type="tel" placeholder="+55 (11) 99999-9999" required />
           <div>
-            <label htmlFor="message" className="block text-xs font-medium text-bone/70 mb-1.5">
-              Como podemos ajudar?
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label htmlFor="message" className="block text-xs font-medium text-bone/70">
+                Como podemos ajudar? *
+              </label>
+              <span className={`text-[10px] ${messageLen > 1000 ? "text-red-400" : "text-bone/40"}`}>
+                {messageLen}/1000
+              </span>
+            </div>
             <textarea
               id="message"
               name="message"
               rows={3}
+              maxLength={1000}
+              onChange={(e) => setMessageLen(e.target.value.length)}
               placeholder="Descreva brevemente o que sua IA faz hoje e o que você gostaria de validar."
               required
               className="w-full bg-bone/[0.04] border border-bone/10 focus:border-bone/40 focus:bg-bone/[0.06] outline-none rounded-xl px-4 py-3 text-sm text-bone placeholder:text-bone/30 transition resize-none"
             />
           </div>
+          {error && (
+            <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+              {error}
+            </p>
+          )}
           <button
             type="submit"
             disabled={loading}
