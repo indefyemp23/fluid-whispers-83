@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import heroImg from "@/assets/hero.jpg";
-import { submitLead } from "@/lib/leads.functions";
+import { submitLead } from "@/lib/lead-submit";
 import { collectAttribution } from "@/lib/attribution";
 
 export const Route = createFileRoute("/")({
@@ -269,32 +268,31 @@ function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [messageLen, setMessageLen] = useState(0);
-  const submit = useServerFn(submitLead);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
-    const message = String(fd.get("message") ?? "").trim();
+    const name = String(fd.get("name") ?? "").trim();
     const phone = String(fd.get("phone") ?? "").trim();
+    const message = String(fd.get("message") ?? "").trim();
 
+    if (!name) return setError("Informe seu nome.");
     if (!phone) return setError("Informe seu WhatsApp.");
     if (!message) return setError("Conte como podemos ajudar.");
     if (message.length > 1000) {
-      return setError("Mensagem muito longa. Máximo de 1000 caracteres.");
+      return setError("Mensagem muito longa. Maximo de 1000 caracteres.");
     }
 
     setLoading(true);
     try {
-      await submit({
-        data: {
-          phone,
-          message,
-          name: String(fd.get("name") ?? "") || null,
-          email: String(fd.get("email") ?? "") || null,
-          company: String(fd.get("company") ?? "") || null,
-          attribution: collectAttribution(),
-        },
+      await submitLead({
+        phone,
+        name,
+        email: String(fd.get("email") ?? "") || null,
+        company: String(fd.get("company") ?? "") || null,
+        message,
+        attribution: collectAttribution(),
       });
       setSent(true);
     } catch (err) {
@@ -331,8 +329,8 @@ function ContactForm() {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
-            <Field label="Nome" name="name" type="text" placeholder="Seu nome" />
-            <Field label="Empresa" name="company" type="text" placeholder="Razão social" />
+            <Field label="Nome *" name="name" type="text" placeholder="Seu nome" required />
+            <Field label="Empresa" name="company" type="text" placeholder="Razao social" />
           </div>
           <Field label="E-mail corporativo" name="email" type="email" placeholder="voce@empresa.com" />
           <Field label="WhatsApp *" name="phone" type="tel" placeholder="+55 (11) 99999-9999" required />
@@ -351,7 +349,7 @@ function ContactForm() {
               rows={3}
               maxLength={1000}
               onChange={(e) => setMessageLen(e.target.value.length)}
-              placeholder="Descreva brevemente o que sua IA faz hoje e o que você gostaria de validar."
+              placeholder="Descreva brevemente o que sua IA faz hoje e o que voce gostaria de validar."
               required
               className="w-full bg-bone/[0.04] border border-bone/10 focus:border-bone/40 focus:bg-bone/[0.06] outline-none rounded-xl px-4 py-3 text-sm text-bone placeholder:text-bone/30 transition resize-none"
             />
