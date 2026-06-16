@@ -1,4 +1,3 @@
-import { supabase } from "@/integrations/supabase/client";
 import type { Attribution } from "@/lib/attribution";
 
 export type SubmitLeadInput = {
@@ -11,12 +10,23 @@ export type SubmitLeadInput = {
 };
 
 export async function submitLead(data: SubmitLeadInput) {
-  const { data: result, error } = await supabase.functions.invoke("submit-lead", {
-    body: data,
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+  if (!supabaseUrl) {
+    throw new Error("Missing Supabase URL.");
+  }
+
+  const response = await fetch(`${supabaseUrl}/functions/v1/submit-lead`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=UTF-8",
+    },
+    body: JSON.stringify(data),
   });
 
-  if (error) {
-    throw new Error(error.message || "Nao foi possivel registrar seu contato. Tente novamente.");
+  const result = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(result?.message || "Nao foi possivel registrar seu contato. Tente novamente.");
   }
 
   if (!result?.ok) {
