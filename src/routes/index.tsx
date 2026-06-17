@@ -27,6 +27,7 @@ const proofs = [
     title: "Visibilidade para diretoria",
     metric: "painel em produção",
     src: "/social-proof/lucas.webp",
+    srcSet: "/social-proof/lucas-360.webp 360w, /social-proof/lucas-540.webp 540w, /social-proof/lucas.webp 720w",
     quote:
       "Hoje consigo abrir um painel e mostrar exatamente o que está acontecendo.",
   },
@@ -34,6 +35,7 @@ const proofs = [
     title: "Menos retrabalho do time",
     metric: "respostas mais estáveis",
     src: "/social-proof/joao.webp",
+    srcSet: "/social-proof/joao-360.webp 360w, /social-proof/joao-540.webp 540w, /social-proof/joao.webp 720w",
     quote:
       "O time praticamente parou de ficar corrigindo resposta toda hora.",
   },
@@ -41,6 +43,7 @@ const proofs = [
     title: "Custo e latência menores",
     metric: "−35% tokens · 8s → 2s",
     src: "/social-proof/ana.webp",
+    srcSet: "/social-proof/ana-360.webp 360w, /social-proof/ana-540.webp 540w, /social-proof/ana.webp 720w",
     quote:
       "Conseguimos reduzir uns 35%. O tempo de resposta caiu bastante também.",
   },
@@ -71,7 +74,8 @@ export const Route = createFileRoute("/")({
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "apple-touch-icon", href: "/gomes-logo.svg" },
       { rel: "preconnect", href: "https://lottie.host" },
-      { rel: "preconnect", href: "https://unpkg.com" },
+      { rel: "dns-prefetch", href: "https://lottie.host" },
+      { rel: "dns-prefetch", href: "https://unpkg.com" },
     ],
   }),
   component: Index,
@@ -79,9 +83,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#F4F4F4] text-[#0D0D0D] antialiased selection:bg-[#FF5722] selection:text-white">
+    <main className="min-h-screen overflow-x-hidden bg-[#F4F4F4] pb-20 text-[#0D0D0D] antialiased selection:bg-[#FF5722] selection:text-white md:pb-0">
       <DesignCss />
       <Nav />
+      <MobileStickyCTA />
       <Hero />
       <ProblemSection />
       <MethodSection />
@@ -90,6 +95,17 @@ function Index() {
       <CTA />
       <Footer />
     </main>
+  );
+}
+
+
+function MobileStickyCTA() {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/92 px-4 py-3 shadow-[0_-14px_40px_rgba(13,13,13,0.10)] backdrop-blur-xl md:hidden [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]">
+      <a href="#diagnostico" className="flex min-h-12 items-center justify-center rounded-[18px] bg-[#0D0D0D] px-5 text-sm font-black text-white active:scale-[0.98]">
+        Diagnóstico gratuito em 24h
+      </a>
+    </div>
   );
 }
 
@@ -136,10 +152,10 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="relative isolate px-5 pt-32 sm:px-6 lg:pt-40">
+    <section className="relative isolate px-4 pt-28 sm:px-6 sm:pt-32 lg:pt-40">
       <div className="absolute inset-0 -z-10 opacity-[0.34] [background-image:linear-gradient(rgba(13,13,13,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(13,13,13,0.055)_1px,transparent_1px)] [background-size:42px_42px]" />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-12 pb-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 pb-12 sm:gap-12 sm:pb-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-24">
         <Reveal>
           <div className="max-w-[680px]">
             <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/78 px-3 py-1.5 text-xs font-bold text-[#5C5C5C] shadow-[0_8px_28px_rgba(13,13,13,0.08)] backdrop-blur">
@@ -147,18 +163,18 @@ function Hero() {
               Diagnóstico de IA em produção
             </div>
 
-            <h1 className="mt-7 text-[clamp(3.2rem,8vw,6.4rem)] font-black leading-[0.92] tracking-[-0.075em] text-[#0D0D0D]">
+            <h1 className="mt-6 text-[clamp(2.75rem,15vw,6.4rem)] font-black leading-[0.9] tracking-[-0.075em] text-[#0D0D0D] sm:mt-7 sm:leading-[0.92]">
               Sua IA parece funcionar.
               <span className="mt-3 block text-[#FF5722]">
                 Nós provamos.
               </span>
             </h1>
 
-            <p className="mt-7 max-w-xl text-lg leading-8 text-[#565656] sm:text-xl">
+            <p className="mt-6 max-w-xl text-base leading-7 text-[#565656] sm:mt-7 sm:text-xl sm:leading-8">
               Encontramos <Semantic tone="danger">erros invisíveis</Semantic>, cortamos <Semantic tone="orange">custo de tokens</Semantic> e criamos <Semantic tone="success">governança mensurável</Semantic> para agentes, prompts e fluxos já em operação.
             </p>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               <a href="#diagnostico" className="primary-btn">
                 Solicitar diagnóstico gratuito
               </a>
@@ -167,7 +183,7 @@ function Hero() {
               </a>
             </div>
 
-            <div className="mt-9 grid max-w-xl grid-cols-3 gap-3">
+            <div className="mt-7 grid max-w-xl grid-cols-3 gap-2 sm:mt-9 sm:gap-3">
               <MiniMetric label="tokens" prefix="−" to={35} suffix="%" tone="success" />
               <MiniMetric label="resposta" from={8} to={2} suffix="s" tone="orange" />
               <MiniMetric label="incidentes" to={0} tone="danger" />
@@ -191,17 +207,17 @@ function SignalVisual() {
   ] as const;
 
   return (
-    <div className="mx-auto w-full max-w-[680px] rounded-[40px] border border-white/80 bg-white/78 p-4 shadow-[0_30px_90px_rgba(13,13,13,0.13)] backdrop-blur-xl sm:p-5">
-      <div className="rounded-[30px] border border-black/5 bg-[#0D0D0D] p-5 text-white sm:p-6">
+    <div className="mx-auto w-full max-w-[680px] rounded-[30px] border border-white/80 bg-white/78 p-3 shadow-[0_20px_60px_rgba(13,13,13,0.11)] backdrop-blur-xl sm:rounded-[40px] sm:p-5 sm:shadow-[0_30px_90px_rgba(13,13,13,0.13)]">
+      <div className="rounded-[24px] border border-black/5 bg-[#0D0D0D] p-4 text-white sm:rounded-[30px] sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-white/42">Mapa de diagnóstico</p>
-            <h2 className="mt-3 max-w-sm text-3xl font-black leading-none tracking-[-0.055em] sm:text-4xl">
+            <h2 className="mt-3 max-w-sm text-2xl font-black leading-none tracking-[-0.055em] sm:text-4xl">
               O que medir antes de confiar na IA.
             </h2>
           </div>
-          <div className="h-24 w-24 shrink-0 rounded-[28px] bg-white/[0.06] p-2">
-            <DotLottie src={lotties.report} label="Lupa analisando relatório" />
+          <div className="hidden h-24 w-24 shrink-0 rounded-[28px] bg-white/[0.06] p-2 sm:block">
+            <LazyLottie src={lotties.report} label="Lupa analisando relatório" delay={600} />
           </div>
         </div>
 
@@ -307,7 +323,7 @@ function ProblemSection() {
   ];
 
   return (
-    <section id="problema" className="px-5 py-18 sm:px-6 lg:py-24">
+    <section id="problema" className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
@@ -326,11 +342,11 @@ function ProblemSection() {
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {cards.map((card, index) => (
             <Reveal key={card.title} delay={index * 90}>
-              <article className="group min-h-[292px] overflow-hidden rounded-[32px] border border-white/70 bg-white/76 p-6 shadow-[0_18px_60px_rgba(13,13,13,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_90px_rgba(13,13,13,0.13)]">
+              <article className="group min-h-[248px] overflow-hidden rounded-[28px] sm:min-h-[292px] sm:rounded-[32px] border border-white/70 bg-white/76 p-6 shadow-[0_18px_60px_rgba(13,13,13,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_90px_rgba(13,13,13,0.13)]">
                 <div className="flex items-start justify-between gap-4">
                   <ToneBadge tone={card.tone}>{card.badge}</ToneBadge>
                   <div className="h-24 w-24 rounded-3xl bg-[#F4F4F4] p-2 transition group-hover:rotate-3 group-hover:scale-105">
-                    <DotLottie src={card.lottie} label={card.title} />
+                    <LazyLottie src={card.lottie} label={card.title} />
                   </div>
                 </div>
                 <h3 className="mt-8 text-2xl font-black leading-tight tracking-[-0.045em]">{card.title}</h3>
@@ -352,7 +368,7 @@ function MethodSection() {
   ];
 
   return (
-    <section id="metodo" className="relative overflow-hidden bg-[#0D0D0D] px-5 py-20 text-white sm:px-6 lg:py-24">
+    <section id="metodo" className="section-skip relative overflow-hidden bg-[#0D0D0D] px-4 py-14 text-white sm:px-6 sm:py-20 lg:py-24">
       <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.55)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.55)_1px,transparent_1px)] [background-size:42px_42px]" />
       <div className="relative mx-auto max-w-6xl">
         <Reveal>
@@ -387,7 +403,7 @@ function MethodSection() {
 
 function MetricsSection() {
   return (
-    <section className="px-5 py-20 sm:px-6 lg:py-24">
+    <section className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="rounded-[44px] bg-white p-5 shadow-[0_30px_100px_rgba(13,13,13,0.09)] sm:p-8 lg:p-10">
@@ -418,7 +434,7 @@ function MetricsSection() {
 
 function ProofSection() {
   return (
-    <section id="provas" className="px-5 py-20 sm:px-6 lg:py-24">
+    <section id="provas" className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
@@ -434,23 +450,26 @@ function ProofSection() {
           </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div className="mt-10 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
           {proofs.map((proof, index) => (
-            <Reveal key={proof.title} delay={index * 90}>
-              <article className="group overflow-hidden rounded-[36px] bg-white p-3 shadow-[0_28px_90px_rgba(13,13,13,0.10)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_38px_110px_rgba(13,13,13,0.16)]">
-                <div className="relative overflow-hidden rounded-[28px] bg-[#071014]">
+            <Reveal key={proof.title} delay={index * 70}>
+              <article className="group w-[78vw] min-w-[78vw] snap-start overflow-hidden rounded-[28px] bg-white p-2 shadow-[0_18px_54px_rgba(13,13,13,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(13,13,13,0.14)] sm:w-[44vw] sm:min-w-[44vw] lg:w-auto lg:min-w-0 lg:rounded-[36px] lg:p-3">
+                <div className="relative overflow-hidden rounded-[22px] bg-[#071014] lg:rounded-[28px]">
                   <img
                     src={proof.src}
+                    srcSet={proof.srcSet}
+                    sizes="(max-width: 640px) 78vw, (max-width: 1024px) 44vw, 360px"
                     alt={`Print de WhatsApp — ${proof.title}`}
                     loading="lazy"
-                    className="aspect-[9/16] w-full object-cover object-top transition duration-500 group-hover:scale-[1.035]"
+                    decoding="async"
+                    className="aspect-[9/16] w-full object-cover object-top transition duration-500 group-hover:scale-[1.025]"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/78 via-black/20 to-transparent p-5 text-white">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/62">{proof.metric}</p>
-                    <h3 className="mt-2 text-xl font-black tracking-[-0.045em]">{proof.title}</h3>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/78 via-black/20 to-transparent p-4 text-white sm:p-5">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/62 sm:text-xs sm:tracking-[0.16em]">{proof.metric}</p>
+                    <h3 className="mt-2 text-lg font-black tracking-[-0.045em] sm:text-xl">{proof.title}</h3>
                   </div>
                 </div>
-                <p className="p-4 text-[15px] leading-7 text-[#5C5C5C]">“{proof.quote}”</p>
+                <p className="p-3 text-sm leading-6 text-[#5C5C5C] sm:p-4 sm:text-[15px] sm:leading-7">“{proof.quote}”</p>
               </article>
             </Reveal>
           ))}
@@ -462,8 +481,8 @@ function ProofSection() {
 
 function CTA() {
   return (
-    <section id="diagnostico" className="bg-[#0D0D0D] px-5 py-20 text-white sm:px-6 lg:py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+    <section id="diagnostico" className="section-skip bg-[#0D0D0D] px-4 py-14 text-white sm:px-6 sm:py-20 lg:py-24">
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
         <Reveal>
           <div>
             <SectionKicker dark>Diagnóstico gratuito</SectionKicker>
@@ -481,7 +500,7 @@ function CTA() {
 
             <div className="mt-8 flex items-center gap-4 rounded-[30px] border border-white/10 bg-white/[0.06] p-4 shadow-[0_18px_58px_rgba(0,0,0,0.20)] backdrop-blur-xl">
               <div className="h-24 w-24 shrink-0 rounded-[24px] bg-white/[0.06] p-2">
-                <DotLottie src={lotties.agreement} label="Aperto de mãos simbolizando acordo" />
+                <LazyLottie src={lotties.agreement} label="Aperto de mãos simbolizando acordo" />
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF8A65]">próximo passo</p>
@@ -541,7 +560,7 @@ function ContactForm() {
   }
 
   return (
-    <div className="rounded-[34px] border border-white/10 bg-white p-5 text-[#0D0D0D] shadow-[0_24px_80px_rgba(0,0,0,0.18)] sm:p-7">
+    <div className="rounded-[28px] border border-white/10 bg-white p-4 text-[#0D0D0D] shadow-[0_20px_60px_rgba(0,0,0,0.16)] sm:rounded-[34px] sm:p-7 sm:shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
       {sent ? (
         <div className="py-16 text-center">
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-2xl text-emerald-700">✓</div>
@@ -716,26 +735,66 @@ function MetricCard({
   );
 }
 
-function DotLottie({ src, label }: { src: string; label: string }) {
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    if (document.getElementById("dotlottie-wc-script")) return;
+
+let dotLottieScriptPromise: Promise<void> | null = null;
+
+function loadDotLottieScript() {
+  if (typeof document === "undefined") return Promise.resolve();
+  if (document.getElementById("dotlottie-wc-script")) return Promise.resolve();
+  if (dotLottieScriptPromise) return dotLottieScriptPromise;
+
+  dotLottieScriptPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.id = "dotlottie-wc-script";
     script.src = "https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.14/dist/dotlottie-wc.js";
     script.type = "module";
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Falha ao carregar animação."));
     document.head.appendChild(script);
-  }, []);
+  });
+
+  return dotLottieScriptPromise;
+}
+
+function LazyLottie({ src, label, delay = 0 }: { src: string; label: string; delay?: number }) {
+  const [ref, visible] = useInView<HTMLDivElement>({ threshold: 0.01, rootMargin: "240px 0px" });
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!visible) return;
+    const reduceMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const timer = window.setTimeout(() => {
+      loadDotLottieScript()
+        .then(() => setReady(true))
+        .catch(() => setReady(false));
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [delay, visible]);
 
   return (
-    <div className="h-full w-full" role="img" aria-label={label}>
-      {createElement("dotlottie-wc", {
-        src,
-        autoplay: true,
-        loop: true,
-        style: { width: "100%", height: "100%" } as CSSProperties,
-      })}
+    <div ref={ref} className="grid h-full w-full place-items-center" role="img" aria-label={label}>
+      {ready
+        ? createElement("dotlottie-wc", {
+            src,
+            autoplay: true,
+            loop: true,
+            style: { width: "100%", height: "100%" } as CSSProperties,
+          })
+        : <LottieFallback />}
     </div>
+  );
+}
+
+function LottieFallback() {
+  return (
+    <svg viewBox="0 0 96 96" className="h-16 w-16 text-[#FF5722] opacity-85" aria-hidden="true">
+      <rect x="18" y="18" width="60" height="60" rx="20" fill="currentColor" opacity="0.11" />
+      <path d="M31 50.5 43 62l23-29" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -815,9 +874,11 @@ function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }
   );
 }
 
-function useInView<T extends HTMLElement>() {
+function useInView<T extends HTMLElement>(config?: { threshold?: number; rootMargin?: string }) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
+  const threshold = config?.threshold ?? 0.18;
+  const rootMargin = config?.rootMargin ?? "0px 0px -8% 0px";
 
   useEffect(() => {
     if (!ref.current || visible) return;
@@ -828,11 +889,11 @@ function useInView<T extends HTMLElement>() {
           observer.disconnect();
         }
       },
-      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+      { threshold, rootMargin },
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [visible]);
+  }, [rootMargin, threshold, visible]);
 
   return [ref, visible] as const;
 }
@@ -841,6 +902,10 @@ function DesignCss() {
   return (
     <style>{`
       html { scroll-behavior: smooth; }
+      body { text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+      @supports (content-visibility: auto) {
+        .section-skip { content-visibility: auto; contain-intrinsic-size: 1px 820px; }
+      }
       .primary-btn,
       .secondary-btn {
         display: inline-flex;
@@ -919,6 +984,16 @@ function DesignCss() {
       @keyframes blink {
         0%, 50% { opacity: 1; }
         51%, 100% { opacity: 0; }
+      }
+      @media (max-width: 640px) {
+        .primary-btn,
+        .secondary-btn {
+          width: 100%;
+          min-height: 52px;
+          border-radius: 18px;
+          padding: 0 20px;
+        }
+        .section-skip { contain-intrinsic-size: 1px 680px; }
       }
       @media (prefers-reduced-motion: reduce) {
         * { animation: none !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
