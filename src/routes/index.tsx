@@ -11,11 +11,6 @@ import {
 import { submitLead } from "@/lib/lead-submit";
 import { collectAttribution } from "@/lib/attribution";
 
-const dashboard = {
-  page: "https://ibb.co/fVmkpxPJ",
-  image: "https://i.ibb.co/Xfm7sCvH/img.jpg",
-};
-
 const lotties = {
   agreement:
     "https://lottie.host/bc57c47d-81a4-4589-8fd9-b41abb29ef63/nPbBgPzdoA.lottie",
@@ -69,13 +64,12 @@ export const Route = createFileRoute("/")({
         content:
           "Auditoria, métricas e governança para IA em produção: menos custo, menos erro e mais visibilidade.",
       },
-      { property: "og:image", content: dashboard.image },
+      { property: "og:image", content: "/gomes-logo.svg" },
       { name: "theme-color", content: "#F4F4F4" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "apple-touch-icon", href: "/gomes-logo.svg" },
-      { rel: "preconnect", href: "https://i.ibb.co" },
       { rel: "preconnect", href: "https://lottie.host" },
       { rel: "preconnect", href: "https://unpkg.com" },
     ],
@@ -143,7 +137,6 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative isolate px-5 pt-32 sm:px-6 lg:pt-40">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_82%_22%,rgba(255,87,34,0.18),transparent_27%),radial-gradient(circle_at_18%_20%,rgba(13,13,13,0.07),transparent_25%)]" />
       <div className="absolute inset-0 -z-10 opacity-[0.34] [background-image:linear-gradient(rgba(13,13,13,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(13,13,13,0.055)_1px,transparent_1px)] [background-size:42px_42px]" />
 
       <div className="mx-auto grid max-w-6xl items-center gap-12 pb-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-24">
@@ -156,7 +149,7 @@ function Hero() {
 
             <h1 className="mt-7 text-[clamp(3.2rem,8vw,6.4rem)] font-black leading-[0.92] tracking-[-0.075em] text-[#0D0D0D]">
               Sua IA parece funcionar.
-              <span className="mt-3 block text-transparent [background:linear-gradient(105deg,#0D0D0D_0%,#FF5722_54%,#16A34A_100%)] bg-clip-text">
+              <span className="mt-3 block text-[#FF5722]">
                 Nós provamos.
               </span>
             </h1>
@@ -183,53 +176,107 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={120}>
-          <DashboardVisual />
+          <SignalVisual />
         </Reveal>
       </div>
     </section>
   );
 }
 
-function DashboardVisual() {
+function SignalVisual() {
+  const rows = [
+    { label: "Atendimento", before: 88, after: 42, tone: "danger" },
+    { label: "Cadastro", before: 64, after: 31, tone: "orange" },
+    { label: "2ª via", before: 71, after: 22, tone: "success" },
+  ] as const;
+
   return (
-    <div className="relative mx-auto w-full max-w-[680px]">
-      <div className="absolute -left-4 top-8 hidden rounded-[24px] bg-white/84 p-4 shadow-[0_18px_54px_rgba(13,13,13,0.12)] backdrop-blur-xl md:block float-slow">
-        <p className="text-xs font-bold text-[#5C5C5C]">Prompts aprovados</p>
-        <p className="mt-1 text-4xl font-black tracking-[-0.06em] text-emerald-700">
-          <CountUp to={94} suffix="%" />
-        </p>
-      </div>
-
-      <div className="absolute -right-2 bottom-7 hidden rounded-[24px] bg-[#0D0D0D] p-4 text-white shadow-[0_20px_64px_rgba(13,13,13,0.22)] md:block float-fast">
-        <p className="text-xs text-white/60">Tempo médio</p>
-        <p className="mt-1 text-3xl font-black tracking-[-0.05em]">
-          <span className="text-white/40 line-through">8s</span> → <span className="text-[#FF5722]">2s</span>
-        </p>
-      </div>
-
-      <a
-        href={dashboard.page}
-        target="_blank"
-        rel="noreferrer"
-        className="group block overflow-hidden rounded-[36px] border border-white/80 bg-white/72 p-4 shadow-[0_30px_90px_rgba(13,13,13,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_42px_120px_rgba(13,13,13,0.18)]"
-        aria-label="Abrir imagem real do dashboard de governança"
-      >
-        <div className="overflow-hidden rounded-[26px] bg-[#0D0D0D]">
-          <img
-            src={dashboard.image}
-            alt="Dashboard real de governança de IA em produção"
-            className="aspect-video w-full object-cover object-center transition duration-500 group-hover:scale-[1.025]"
-            loading="eager"
-          />
-        </div>
-        <div className="mt-4 flex items-center justify-between gap-4 px-1">
+    <div className="mx-auto w-full max-w-[680px] rounded-[40px] border border-white/80 bg-white/78 p-4 shadow-[0_30px_90px_rgba(13,13,13,0.13)] backdrop-blur-xl sm:p-5">
+      <div className="rounded-[30px] border border-black/5 bg-[#0D0D0D] p-5 text-white sm:p-6">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#FF5722]">Dashboard real</p>
-            <p className="mt-1 text-sm font-semibold text-[#5C5C5C]">Imagem externa via i.ibb.co, vinculada ao link ibb.co.</p>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/42">Mapa de diagnóstico</p>
+            <h2 className="mt-3 max-w-sm text-3xl font-black leading-none tracking-[-0.055em] sm:text-4xl">
+              O que medir antes de confiar na IA.
+            </h2>
           </div>
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#0D0D0D] text-white transition group-hover:bg-[#FF5722]">↗</span>
+          <div className="h-24 w-24 shrink-0 rounded-[28px] bg-white/[0.06] p-2">
+            <DotLottie src={lotties.report} label="Lupa analisando relatório" />
+          </div>
         </div>
-      </a>
+
+        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          <SignalCard label="erros ocultos" value="12" tone="danger" />
+          <SignalCard label="custo evitável" value="−35%" tone="orange" />
+          <SignalCard label="governança" value="94%" tone="success" />
+        </div>
+
+        <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
+            <div className="mb-5 flex items-center justify-between">
+              <p className="text-sm font-black text-white/82">Risco por fluxo</p>
+              <span className="rounded-full bg-[#FF5722]/14 px-3 py-1 text-[11px] font-black text-[#FF8A65]">antes → depois</span>
+            </div>
+
+            <div className="space-y-4">
+              {rows.map((row) => (
+                <div key={row.label}>
+                  <div className="mb-2 flex items-center justify-between text-xs text-white/48">
+                    <span>{row.label}</span>
+                    <span>{row.before}% → {row.after}%</span>
+                  </div>
+                  <div className="relative h-3 overflow-hidden rounded-full bg-white/10">
+                    <div className="absolute left-0 top-0 h-full rounded-full bg-white/18" style={{ width: `${row.before}%` }} />
+                    <div
+                      className={`absolute left-0 top-0 h-full rounded-full ${row.tone === "danger" ? "bg-red-500" : row.tone === "orange" ? "bg-[#FF5722]" : "bg-emerald-500"}`}
+                      style={{ width: `${row.after}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
+            <p className="text-sm font-black text-white/82">Prioridade da auditoria</p>
+            <div className="mt-5 grid place-items-center">
+              <svg viewBox="0 0 120 120" className="h-36 w-36 -rotate-90">
+                <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="16" />
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#EF4444" strokeWidth="16" strokeDasharray="92 276" strokeLinecap="round" />
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#FF5722" strokeWidth="16" strokeDasharray="74 276" strokeDashoffset="-100" strokeLinecap="round" />
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#10B981" strokeWidth="16" strokeDasharray="54 276" strokeDashoffset="-184" strokeLinecap="round" />
+              </svg>
+              <div className="-mt-24 text-center">
+                <p className="text-4xl font-black tracking-[-0.07em] text-white">3</p>
+                <p className="text-xs font-bold text-white/45">frentes críticas</p>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-2 text-xs font-bold text-white/54">
+              <span><i className="mr-2 inline-block h-2 w-2 rounded-full bg-red-500" /> falhas</span>
+              <span><i className="mr-2 inline-block h-2 w-2 rounded-full bg-[#FF5722]" /> custo</span>
+              <span><i className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-500" /> controle</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
+          <p className="text-sm font-black text-white/82">Saída do diagnóstico</p>
+          <p className="mt-2 text-sm leading-6 text-white/54">
+            Uma lista curta de correções, riscos e métricas que a operação entende sem precisar decifrar uma tela cheia de informações.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SignalCard({ label, value, tone }: { label: string; value: string; tone: "danger" | "orange" | "success" }) {
+  const color = tone === "danger" ? "text-red-400" : tone === "orange" ? "text-[#FF8A65]" : "text-emerald-400";
+  return (
+    <div className="rounded-[22px] border border-white/10 bg-white/[0.05] p-4 transition hover:-translate-y-1 hover:bg-white/[0.08]">
+      <p className="text-[11px] font-black uppercase tracking-[0.14em] text-white/38">{label}</p>
+      <p className={`mt-3 text-4xl font-black tracking-[-0.07em] ${color}`}>{value}</p>
     </div>
   );
 }
@@ -301,12 +348,12 @@ function MethodSection() {
   const steps = [
     ["01", "Auditoria", "Mapeamos agentes, prompts, ferramentas e fluxos reais."],
     ["02", "Medição", "Definimos critérios de qualidade, custo, latência e risco."],
-    ["03", "Governança", "Transformamos melhoria em dashboard, padrão e alerta."],
+    ["03", "Governança", "Transformamos melhoria em padrão, alerta e relatório executivo."],
   ];
 
   return (
     <section id="metodo" className="relative overflow-hidden bg-[#0D0D0D] px-5 py-20 text-white sm:px-6 lg:py-24">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(255,87,34,0.2),transparent_26%),radial-gradient(circle_at_72%_80%,rgba(22,163,74,0.14),transparent_30%)]" />
+      <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.55)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.55)_1px,transparent_1px)] [background-size:42px_42px]" />
       <div className="relative mx-auto max-w-6xl">
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
@@ -351,7 +398,7 @@ function MetricsSection() {
                   Métrica só importa quando muda uma decisão.
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-8 text-[#5C5C5C]">
-                  O dashboard mostra onde o ganho aparece: custo, velocidade, qualidade e risco.
+                  O painel executivo mostra onde o ganho aparece: custo, velocidade, qualidade e risco.
                 </p>
               </div>
 
@@ -431,6 +478,18 @@ function CTA() {
               <li>✓ Análise inicial em até 24h</li>
               <li>✓ Foco em custo, qualidade e governança</li>
             </ul>
+
+            <div className="mt-8 flex items-center gap-4 rounded-[30px] border border-white/10 bg-white/[0.06] p-4 shadow-[0_18px_58px_rgba(0,0,0,0.20)] backdrop-blur-xl">
+              <div className="h-24 w-24 shrink-0 rounded-[24px] bg-white/[0.06] p-2">
+                <DotLottie src={lotties.agreement} label="Aperto de mãos simbolizando acordo" />
+              </div>
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF8A65]">próximo passo</p>
+                <p className="mt-2 text-lg font-black tracking-[-0.035em] text-white">
+                  Uma conversa curta para definir escopo, risco e prioridade.
+                </p>
+              </div>
+            </div>
           </div>
         </Reveal>
 
@@ -856,12 +915,6 @@ function DesignCss() {
         display: inline-block;
         color: #FF5722;
         animation: blink 850ms steps(1) infinite;
-      }
-      .float-slow { animation: float 6s ease-in-out infinite; }
-      .float-fast { animation: float 4.6s ease-in-out infinite reverse; }
-      @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
       }
       @keyframes blink {
         0%, 50% { opacity: 1; }
