@@ -11,6 +11,52 @@ import {
 import { submitLead } from "@/lib/lead-submit";
 import { collectAttribution } from "@/lib/attribution";
 
+type FbqFunction = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  loaded?: boolean;
+  push?: FbqFunction;
+  queue?: unknown[];
+  version?: string;
+};
+
+declare global {
+  interface Window {
+    fbq?: FbqFunction;
+    _fbq?: FbqFunction;
+  }
+}
+
+const META_PIXEL_ID = "1774038717104917";
+function ensureMetaPixel() {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  if (window.fbq) return;
+
+  const fbq = function (...args: unknown[]) {
+    if (fbq.callMethod) {
+      fbq.callMethod(...args);
+      return;
+    }
+    fbq.queue?.push(args);
+  } as FbqFunction;
+
+  window.fbq = fbq;
+  window._fbq = fbq;
+  fbq.push = fbq;
+  fbq.loaded = true;
+  fbq.version = "2.0";
+  fbq.queue = [];
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://connect.facebook.net/en_US/fbevents.js";
+  document.head.appendChild(script);
+}
+
+function trackPixel(eventName: string, params?: Record<string, unknown>) {
+  ensureMetaPixel();
+  window.fbq?.("track", eventName, params ?? {});
+}
+
 const lotties = {
   agreement:
     "https://lottie.host/bc57c47d-81a4-4589-8fd9-b41abb29ef63/nPbBgPzdoA.lottie",
@@ -76,6 +122,8 @@ export const Route = createFileRoute("/")({
       { rel: "preconnect", href: "https://lottie.host" },
       { rel: "dns-prefetch", href: "https://lottie.host" },
       { rel: "dns-prefetch", href: "https://unpkg.com" },
+      { rel: "preconnect", href: "https://connect.facebook.net" },
+      { rel: "dns-prefetch", href: "https://connect.facebook.net" },
     ],
   }),
   component: Index,
@@ -85,6 +133,7 @@ function Index() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#F4F4F4] pb-20 text-[#0D0D0D] antialiased selection:bg-[#FF5722] selection:text-white md:pb-0">
       <DesignCss />
+      <MetaPixelEvents />
       <Nav />
       <MobileStickyCTA />
       <Hero />
@@ -98,6 +147,61 @@ function Index() {
   );
 }
 
+
+function MetaPixelEvents() {
+  useEffect(() => {
+    ensureMetaPixel();
+    window.fbq?.("init", META_PIXEL_ID);
+    trackPixel("PageView", { source: "gomes_landing" });
+
+    const formSection = document.getElementById("diagnostico");
+    if (!formSection || typeof IntersectionObserver === "undefined") return;
+
+    let viewContentTimer: number | null = null;
+    let viewContentTracked = false;
+
+    const clearViewContentTimer = () => {
+      if (viewContentTimer === null) return;
+      window.clearTimeout(viewContentTimer);
+      viewContentTimer = null;
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (viewContentTracked) return;
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+          if (viewContentTimer !== null) return;
+
+          viewContentTimer = window.setTimeout(() => {
+            viewContentTracked = true;
+            trackPixel("ViewContent", {
+              content_name: "diagnostico_form_section",
+              content_category: "lead_form",
+              source: "gomes_landing",
+              viewed_section_for_seconds: 2,
+            });
+            observer.disconnect();
+          }, 2000);
+
+          return;
+        }
+
+        clearViewContentTimer();
+      },
+      { threshold: [0, 0.35, 0.6], rootMargin: "0px 0px -12% 0px" },
+    );
+
+    observer.observe(formSection);
+
+    return () => {
+      clearViewContentTimer();
+      observer.disconnect();
+    };
+  }, []);
+
+  return null;
+}
 
 function MobileStickyCTA() {
   return (
