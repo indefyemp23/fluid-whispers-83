@@ -678,7 +678,7 @@ function CTA() {
             <div className="mt-7 inline-flex rounded-[24px] border border-[#FF5722]/25 bg-[#FF5722]/12 px-5 py-4 text-left shadow-[0_18px_54px_rgba(255,87,34,0.12)]">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FFAB91]">Investimento inicial</p>
-                <p className="mt-1 text-3xl font-black tracking-[-0.06em] text-white">A partir de R$497</p>
+                <p className="mt-1 text-3xl font-black tracking-[-0.06em] text-white">A partir de R$297</p>
               </div>
             </div>
 
