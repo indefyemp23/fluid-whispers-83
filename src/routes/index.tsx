@@ -27,6 +27,7 @@ declare global {
 }
 
 const META_PIXEL_ID = "1774038717104917";
+
 function ensureMetaPixel() {
   if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.fbq) return;
@@ -60,80 +61,74 @@ function trackPixel(eventName: string, params?: Record<string, unknown>) {
 const lotties = {
   agreement:
     "https://lottie.host/bc57c47d-81a4-4589-8fd9-b41abb29ef63/nPbBgPzdoA.lottie",
-  problem:
-    "https://lottie.host/8d86d8a3-866a-4dfa-8bad-0384f7721eee/NMsMBa7te4.lottie",
-  report:
-    "https://lottie.host/d52f2da4-fb29-4af3-aba1-4f0a6347a9e5/iB4KgQw0Nv.lottie",
-  exhausted:
-    "https://lottie.host/c68279c6-a42a-4927-8224-452465ed9be3/F01DTx3DaD.lottie",
 };
 
-const proofs = [
-  {
-    title: "Visibilidade para diretoria",
-    metric: "painel em produção",
-    src: "/social-proof/lucas.webp",
-    srcSet: "/social-proof/lucas-360.webp 360w, /social-proof/lucas-540.webp 540w, /social-proof/lucas.webp 720w",
-    quote:
-      "Hoje consigo abrir um painel e mostrar exatamente o que está acontecendo.",
-  },
-  {
-    title: "Menos retrabalho do time",
-    metric: "respostas mais estáveis",
-    src: "/social-proof/joao.webp",
-    srcSet: "/social-proof/joao-360.webp 360w, /social-proof/joao-540.webp 540w, /social-proof/joao.webp 720w",
-    quote:
-      "O time praticamente parou de ficar corrigindo resposta toda hora.",
-  },
-  {
-    title: "Custo e latência menores",
-    metric: "−35% tokens · 8s → 2s",
-    src: "/social-proof/ana.webp",
-    srcSet: "/social-proof/ana-360.webp 360w, /social-proof/ana-540.webp 540w, /social-proof/ana.webp 720w",
-    quote:
-      "Conseguimos reduzir uns 35%. O tempo de resposta caiu bastante também.",
-  },
-];
+const analysisItems = [
+  { title: "Respostas erradas", tone: "danger" },
+  { title: "Leads sem próximo passo", tone: "danger" },
+  { title: "Custo de tokens", tone: "orange" },
+  { title: "Retrabalho humano", tone: "orange" },
+  { title: "IA espalhada em ferramentas", tone: "neutral" },
+  { title: "Processos fora do padrão", tone: "neutral" },
+] as const;
 
+const scopeItems = [
+  "WhatsApp",
+  "CRM",
+  "Chatbot",
+  "ChatGPT interno",
+  "Automações",
+  "Sistemas internos",
+  "Plataformas com IA",
+] as const;
+
+const deliverables = [
+  "Relatório executivo",
+  "Riscos encontrados",
+  "Gargalos de custo e tempo",
+  "Pontos de falha",
+  "Recomendações práticas",
+] as const;
 
 const aiUseOptions = [
-  "Atendimento ao cliente",
-  "Vendas/CRM",
-  "WhatsApp/chatbot",
-  "ChatGPT pela equipe",
-  "Automação interna",
-  "Sistema próprio",
-  "Plataforma externa com IA",
+  "Atendimento",
+  "Vendas",
+  "WhatsApp",
+  "CRM",
+  "ChatGPT",
+  "Automação",
+  "Sistema interno",
   "Mais de uma ferramenta",
 ] as const;
 
-const suspicionOptions = [
+const problemOptions = [
+  "Perda de clientes",
   "Respostas erradas",
   "Custo alto",
   "Retrabalho",
   "Lentidão",
   "Falta de controle",
   "Não sei medir",
-  "Quero mapear tudo",
 ] as const;
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gomes Solutions — Auditoria do uso de IA na sua empresa" },
+      { title: "Gomes Solutions — Auditoria inicial de IA por R$297" },
       {
         name: "description",
         content:
-          "Auditoria de IA em ferramentas, agentes e processos: atendimento, vendas, automações, ChatGPT, plataformas externas e sistemas internos.",
+          "Auditoria inicial do uso de IA em atendimento, vendas, WhatsApp, CRM, ChatGPT, automações, plataformas externas e sistemas internos. Relatório em até 24h.",
       },
       {
         property: "og:title",
-        content: "Gomes Solutions — Sua empresa usa IA em mais lugares do que imagina.",
+        content:
+          "Sua IA pode estar perdendo clientes, tempo ou dinheiro.",
       },
       {
         property: "og:description",
         content:
-          "Mapeamos onde a IA atua, quanto ela custa e onde pode falhar na operação.",
+          "Por R$297, mostramos onde sua IA atua, onde pode falhar e o que corrigir primeiro.",
       },
       { property: "og:image", content: "/gomes-logo.svg" },
       { name: "theme-color", content: "#F4F4F4" },
@@ -141,11 +136,11 @@ export const Route = createFileRoute("/")({
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "apple-touch-icon", href: "/gomes-logo.svg" },
-      { rel: "preconnect", href: "https://lottie.host" },
-      { rel: "dns-prefetch", href: "https://lottie.host" },
-      { rel: "dns-prefetch", href: "https://unpkg.com" },
-      { rel: "preconnect", href: "https://connect.facebook.net" },
       { rel: "dns-prefetch", href: "https://connect.facebook.net" },
+      { rel: "preconnect", href: "https://connect.facebook.net" },
+      { rel: "dns-prefetch", href: "https://lottie.host" },
+      { rel: "preconnect", href: "https://lottie.host" },
+      { rel: "dns-prefetch", href: "https://unpkg.com" },
     ],
   }),
   component: Index,
@@ -159,17 +154,15 @@ function Index() {
       <Nav />
       <MobileStickyCTA />
       <Hero />
-      <ProblemSection />
-      <MethodSection />
-      <MetricsSection />
-      <ProofSection />
-      <AuditScopeSection />
+      <WhatWeAnalyze />
+      <WhereWeAudit />
+      <Deliverables />
       <CTA />
+      <Credibility />
       <Footer />
     </main>
   );
 }
-
 
 function MetaPixelEvents() {
   useEffect(() => {
@@ -199,8 +192,10 @@ function MetaPixelEvents() {
           viewContentTimer = window.setTimeout(() => {
             viewContentTracked = true;
             trackPixel("ViewContent", {
-              content_name: "diagnostico_form_section",
+              content_name: "auditoria_inicial_ia_formulario",
               content_category: "lead_form",
+              value: 297,
+              currency: "BRL",
               source: "gomes_landing",
               viewed_section_for_seconds: 2,
             });
@@ -228,9 +223,9 @@ function MetaPixelEvents() {
 
 function MobileStickyCTA() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/92 px-4 py-3 shadow-[0_-14px_40px_rgba(13,13,13,0.10)] backdrop-blur-xl md:hidden [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/94 px-4 py-3 shadow-[0_-14px_40px_rgba(13,13,13,0.10)] backdrop-blur-xl md:hidden [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]">
       <a href="#diagnostico" className="flex min-h-12 items-center justify-center rounded-[18px] bg-[#0D0D0D] px-5 text-sm font-black text-white active:scale-[0.98]">
-        Mapear minha IA
+        Solicitar auditoria · R$297
       </a>
     </div>
   );
@@ -238,8 +233,8 @@ function MobileStickyCTA() {
 
 function Nav() {
   return (
-    <header className="fixed left-1/2 top-4 z-50 w-[min(1160px,calc(100%-1.5rem))] -translate-x-1/2">
-      <div className="flex h-[64px] items-center justify-between rounded-[24px] border border-white/70 bg-white/76 px-4 shadow-[0_16px_52px_rgba(13,13,13,0.08)] backdrop-blur-xl sm:px-5">
+    <header className="fixed left-1/2 top-4 z-50 w-[min(1120px,calc(100%-1.5rem))] -translate-x-1/2">
+      <div className="flex h-[62px] items-center justify-between rounded-[24px] border border-white/70 bg-white/80 px-4 shadow-[0_16px_52px_rgba(13,13,13,0.08)] backdrop-blur-xl sm:px-5">
         <a href="#" className="group flex items-center gap-3" aria-label="Gomes Solutions">
           <img
             src="/gomes-logo.svg"
@@ -252,20 +247,14 @@ function Nav() {
         </a>
 
         <nav className="hidden items-center gap-7 text-sm font-semibold text-[#5C5C5C] md:flex">
-          <a className="hover-link" href="#problema">
-            Riscos
-          </a>
-          <a className="hover-link" href="#metodo">
-            Método
+          <a className="hover-link" href="#analise">
+            O que analisamos
           </a>
           <a className="hover-link" href="#onde-auditamos">
             Onde auditamos
           </a>
-          <a className="hover-link" href="#provas">
-            Provas
-          </a>
-          <a className="hover-link" href="#diagnostico">
-            Auditoria
+          <a className="hover-link" href="#voce-recebe">
+            Você recebe
           </a>
         </nav>
 
@@ -273,7 +262,7 @@ function Nav() {
           href="#diagnostico"
           className="rounded-[20px] bg-[#0D0D0D] px-4 py-3 text-xs font-bold text-white shadow-[0_12px_32px_rgba(13,13,13,0.18)] transition hover:-translate-y-0.5 hover:bg-[#FF5722] hover:shadow-[0_18px_44px_rgba(255,87,34,0.24)] sm:px-5 sm:text-sm"
         >
-          Mapear minha IA
+          Solicitar auditoria
         </a>
       </div>
     </header>
@@ -283,205 +272,92 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative isolate px-4 pt-28 sm:px-6 sm:pt-32 lg:pt-40">
-      <div className="absolute inset-0 -z-10 opacity-[0.34] [background-image:linear-gradient(rgba(13,13,13,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(13,13,13,0.055)_1px,transparent_1px)] [background-size:42px_42px]" />
+      <div className="absolute inset-0 -z-10 opacity-[0.28] [background-image:linear-gradient(rgba(13,13,13,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(13,13,13,0.05)_1px,transparent_1px)] [background-size:42px_42px]" />
 
-      <div className="mx-auto grid max-w-6xl items-center gap-8 pb-12 sm:gap-12 sm:pb-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 pb-12 sm:gap-12 sm:pb-16 lg:grid-cols-[1fr_0.72fr] lg:gap-14 lg:pb-20">
         <Reveal>
-          <div className="max-w-[680px]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/78 px-3 py-1.5 text-xs font-bold text-[#5C5C5C] shadow-[0_8px_28px_rgba(13,13,13,0.08)] backdrop-blur">
+          <div className="max-w-[760px]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/82 px-3 py-1.5 text-xs font-bold text-[#5C5C5C] shadow-[0_8px_28px_rgba(13,13,13,0.07)] backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-[#FF5722] shadow-[0_0_0_6px_rgba(255,87,34,0.12)]" />
-              Auditoria de IA em ferramentas, agentes e processos
+              Auditoria inicial de IA
             </div>
 
-            <h1 className="mt-6 text-[clamp(2.75rem,15vw,6.4rem)] font-black leading-[0.9] tracking-[-0.075em] text-[#0D0D0D] sm:mt-7 sm:leading-[0.92]">
-              Sua empresa usa IA em mais lugares
-              <span className="mt-3 block text-[#FF5722]">
-                do que imagina.
-              </span>
+            <h1 className="mt-6 text-[clamp(2.65rem,12.5vw,6rem)] font-black leading-[0.92] tracking-[-0.075em] text-[#0D0D0D] sm:mt-7 lg:max-w-[820px]">
+              Sua IA pode estar perdendo clientes, tempo ou dinheiro.
             </h1>
 
-            <p className="mt-6 max-w-xl text-base leading-7 text-[#565656] sm:mt-7 sm:text-xl sm:leading-8">
-              Atendimento, vendas, automações, ChatGPT, agentes e plataformas externas podem estar <Semantic tone="danger">respondendo</Semantic>, <Semantic tone="orange">decidindo</Semantic> ou <Semantic tone="success">influenciando processos</Semantic> sem medição clara.
+            <p className="mt-6 max-w-2xl text-base leading-7 text-[#565656] sm:mt-7 sm:text-xl sm:leading-8">
+              Auditamos o uso de IA em atendimento, vendas, automações, ChatGPT, plataformas externas e sistemas internos.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               <a href="#diagnostico" className="primary-btn">
-                Solicitar auditoria inicial
+                Solicitar auditoria
               </a>
-              <a href="#onde-auditamos" className="secondary-btn">
-                Ver onde auditamos
+              <a href="#analise" className="secondary-btn">
+                Ver o que analisamos
               </a>
             </div>
-
-            <div className="mt-7 grid max-w-xl grid-cols-3 gap-2 sm:mt-9 sm:gap-3">
-              <MiniMetric label="custo invisível" prefix="−" to={35} suffix="%" tone="success" />
-              <MiniMetric label="velocidade" from={8} to={2} suffix="s" tone="orange" />
-              <MiniMetric label="riscos" to={0} tone="danger" />
-            </div>
           </div>
         </Reveal>
 
-        <Reveal delay={120}>
-          <SignalVisual />
+        <Reveal delay={100}>
+          <OfferCard />
         </Reveal>
       </div>
     </section>
   );
 }
 
-function SignalVisual() {
-  const rows = [
-    { label: "Atendimento", before: 88, after: 42, tone: "danger" },
-    { label: "Vendas/CRM", before: 64, after: 31, tone: "orange" },
-    { label: "Automação", before: 71, after: 22, tone: "success" },
-  ] as const;
-
+function OfferCard() {
   return (
-    <div className="mx-auto w-full max-w-[680px] rounded-[30px] border border-white/80 bg-white/78 p-3 shadow-[0_20px_60px_rgba(13,13,13,0.11)] backdrop-blur-xl sm:rounded-[40px] sm:p-5 sm:shadow-[0_30px_90px_rgba(13,13,13,0.13)]">
-      <div className="rounded-[24px] border border-black/5 bg-[#0D0D0D] p-4 text-white sm:rounded-[30px] sm:p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/42">Mapa de uso da IA</p>
-            <h2 className="mt-3 max-w-sm text-2xl font-black leading-none tracking-[-0.055em] sm:text-4xl">
-              Sua IA pode estar em várias ferramentas. O risco também.
-            </h2>
-          </div>
-          <div className="hidden h-24 w-24 shrink-0 rounded-[28px] bg-white/[0.06] p-2 sm:block">
-            <LazyLottie src={lotties.report} label="Lupa analisando relatório" delay={600} />
-          </div>
-        </div>
+    <aside className="rounded-[34px] border border-white/80 bg-white/86 p-5 shadow-[0_24px_80px_rgba(13,13,13,0.11)] backdrop-blur-xl sm:p-7">
+      <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF5722]">
+        Oferta direta
+      </p>
+      <h2 className="mt-4 text-3xl font-black leading-none tracking-[-0.06em] sm:text-4xl">
+        Auditoria inicial de IA
+      </h2>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-3">
-          <SignalCard label="respostas erradas" value="12" tone="danger" />
-          <SignalCard label="custo invisível" value="−35%" tone="orange" />
-          <SignalCard label="controle" value="94%" tone="success" />
-        </div>
-
-        <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
-            <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-black text-white/82">Risco por processo</p>
-              <span className="rounded-full bg-[#FF5722]/14 px-3 py-1 text-[11px] font-black text-[#FF8A65]">antes → depois</span>
-            </div>
-
-            <div className="space-y-4">
-              {rows.map((row) => (
-                <div key={row.label}>
-                  <div className="mb-2 flex items-center justify-between text-xs text-white/48">
-                    <span>{row.label}</span>
-                    <span>{row.before}% → {row.after}%</span>
-                  </div>
-                  <div className="relative h-3 overflow-hidden rounded-full bg-white/10">
-                    <div className="absolute left-0 top-0 h-full rounded-full bg-white/18" style={{ width: `${row.before}%` }} />
-                    <div
-                      className={`absolute left-0 top-0 h-full rounded-full ${row.tone === "danger" ? "bg-red-500" : row.tone === "orange" ? "bg-[#FF5722]" : "bg-emerald-500"}`}
-                      style={{ width: `${row.after}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
-            <p className="text-sm font-black text-white/82">Prioridades do mapa</p>
-            <div className="mt-5 grid place-items-center">
-              <svg viewBox="0 0 120 120" className="h-36 w-36 -rotate-90">
-                <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="16" />
-                <circle cx="60" cy="60" r="44" fill="none" stroke="#EF4444" strokeWidth="16" strokeDasharray="92 276" strokeLinecap="round" />
-                <circle cx="60" cy="60" r="44" fill="none" stroke="#FF5722" strokeWidth="16" strokeDasharray="74 276" strokeDashoffset="-100" strokeLinecap="round" />
-                <circle cx="60" cy="60" r="44" fill="none" stroke="#10B981" strokeWidth="16" strokeDasharray="54 276" strokeDashoffset="-184" strokeLinecap="round" />
-              </svg>
-              <div className="-mt-24 text-center">
-                <p className="text-4xl font-black tracking-[-0.07em] text-white">3</p>
-                <p className="text-xs font-bold text-white/45">frentes de risco</p>
-              </div>
-            </div>
-
-            <div className="mt-8 grid gap-2 text-xs font-bold text-white/54">
-              <span><i className="mr-2 inline-block h-2 w-2 rounded-full bg-red-500" /> falhas</span>
-              <span><i className="mr-2 inline-block h-2 w-2 rounded-full bg-[#FF5722]" /> custo</span>
-              <span><i className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-500" /> controle</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-4 rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
-          <p className="text-sm font-black text-white/82">Saída da auditoria</p>
-          <p className="mt-2 text-sm leading-6 text-white/54">
-            Um mapa simples de onde a IA atua, quanto custa e onde pode falhar — mesmo quando ela está dentro de ferramentas prontas.
-          </p>
-        </div>
+      <div className="mt-7 rounded-[28px] bg-[#0D0D0D] p-5 text-white">
+        <p className="text-xs font-black uppercase tracking-[0.16em] text-white/46">
+          Investimento
+        </p>
+        <p className="mt-2 text-6xl font-black tracking-[-0.08em]">R$297</p>
+        <p className="mt-3 rounded-full bg-[#FF5722]/16 px-4 py-2 text-sm font-black text-[#FFAB91]">
+          Relatório em até 24h
+        </p>
       </div>
-    </div>
+
+      <p className="mt-5 text-base font-extrabold leading-7 tracking-[-0.02em] text-[#0D0D0D]">
+        Mostramos onde sua IA pode estar perdendo clientes, tempo ou dinheiro.
+      </p>
+
+      <div className="mt-5 grid gap-2 text-sm font-bold text-[#5C5C5C]">
+        <span className="check-row">Sem precisar ter uma IA própria</span>
+        <span className="check-row">Serve para ferramentas prontas</span>
+        <span className="check-row">Entrega objetiva para decidir o próximo passo</span>
+      </div>
+
+      <a href="#diagnostico" className="primary-btn mt-6 w-full">
+        Solicitar auditoria
+      </a>
+    </aside>
   );
 }
 
-function SignalCard({ label, value, tone }: { label: string; value: string; tone: "danger" | "orange" | "success" }) {
-  const color = tone === "danger" ? "text-red-400" : tone === "orange" ? "text-[#FF8A65]" : "text-emerald-400";
+function WhatWeAnalyze() {
   return (
-    <div className="rounded-[22px] border border-white/10 bg-white/[0.05] p-4 transition hover:-translate-y-1 hover:bg-white/[0.08]">
-      <p className="text-[11px] font-black uppercase tracking-[0.14em] text-white/38">{label}</p>
-      <p className={`mt-3 text-4xl font-black tracking-[-0.07em] ${color}`}>{value}</p>
-    </div>
-  );
-}
-
-function ProblemSection() {
-  const cards = [
-    {
-      badge: "falha oculta",
-      title: "A IA responde em vários canais, mas ninguém mede o padrão.",
-      text: "Medimos consistência, risco de resposta e retrabalho humano.",
-      tone: "danger" as const,
-      lottie: lotties.problem,
-    },
-    {
-      badge: "custo alto",
-      title: "Ferramentas com IA podem esconder custo e retrabalho.",
-      text: "Mapeamos tokens, assinaturas, etapas duplicadas e processos lentos.",
-      tone: "orange" as const,
-      lottie: lotties.exhausted,
-    },
-    {
-      badge: "sem controle",
-      title: "Mais de uma ferramenta pode quebrar o mesmo processo.",
-      text: "Mostramos onde falta controle, métrica e dono operacional.",
-      tone: "success" as const,
-      lottie: lotties.report,
-    },
-  ];
-
-  return (
-    <section id="problema" className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
+    <section id="analise" className="section-skip px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-            <div>
-              <SectionKicker>O risco invisível</SectionKicker>
-              <h2 className="mt-5 max-w-3xl text-[clamp(2.4rem,5vw,4.8rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                <TypewriterText text="O problema não é usar IA. É não saber onde ela atua." />
-              </h2>
-            </div>
-            <p className="max-w-xl text-lg leading-8 text-[#5C5C5C]">
-              Reduzimos a densidade da experiência: cada bloco agora responde uma pergunta simples — falha, custo ou controle.
-            </p>
-          </div>
+          <SectionHeader kicker="O que analisamos" title="Se existe perda, ela aparece no processo." compact />
         </Reveal>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {cards.map((card, index) => (
-            <Reveal key={card.title} delay={index * 90}>
-              <article className="group min-h-[248px] overflow-hidden rounded-[28px] sm:min-h-[292px] sm:rounded-[32px] border border-white/70 bg-white/76 p-6 shadow-[0_18px_60px_rgba(13,13,13,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:shadow-[0_30px_90px_rgba(13,13,13,0.13)]">
-                <div className="flex items-start justify-between gap-4">
-                  <ToneBadge tone={card.tone}>{card.badge}</ToneBadge>
-                  <div className="h-24 w-24 rounded-3xl bg-[#F4F4F4] p-2 transition group-hover:rotate-3 group-hover:scale-105">
-                    <LazyLottie src={card.lottie} label={card.title} />
-                  </div>
-                </div>
-                <h3 className="mt-8 text-2xl font-black leading-tight tracking-[-0.045em]">{card.title}</h3>
-                <p className="mt-4 text-[15px] leading-7 text-[#5C5C5C]">{card.text}</p>
-              </article>
+        <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {analysisItems.map((item, index) => (
+            <Reveal key={item.title} delay={index * 45}>
+              <ShortCard tone={item.tone}>{item.title}</ShortCard>
             </Reveal>
           ))}
         </div>
@@ -490,71 +366,27 @@ function ProblemSection() {
   );
 }
 
-function MethodSection() {
-  const steps = [
-    ["01", "Auditoria", "Mapeamos onde a IA aparece: atendimento, vendas, ChatGPT, automações, ferramentas e sistemas."],
-    ["02", "Medição", "Medimos risco de resposta, retrabalho, custo invisível e consistência entre plataformas."],
-    ["03", "Governança", "Entregamos recomendações práticas para reduzir falha, custo e descontrole."],
-  ];
-
+function WhereWeAudit() {
   return (
-    <section id="metodo" className="section-skip relative overflow-hidden bg-[#0D0D0D] px-4 py-14 text-white sm:px-6 sm:py-20 lg:py-24">
-      <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.55)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.55)_1px,transparent_1px)] [background-size:42px_42px]" />
-      <div className="relative mx-auto max-w-6xl">
+    <section id="onde-auditamos" className="section-skip bg-[#0D0D0D] px-4 py-12 text-white sm:px-6 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
-            <div>
-              <SectionKicker dark>Método Gomes+</SectionKicker>
-              <h2 className="mt-5 max-w-3xl text-[clamp(2.35rem,5vw,4.8rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                De uso espalhado de IA para <span className="text-[#FF5722]">operação medida</span>.
-              </h2>
-            </div>
-            <p className="text-lg leading-8 text-white/60">
-              Sem depender de sistema próprio. Se a IA participa da operação, ela entra no mapa.
-            </p>
-          </div>
+          <SectionHeader dark kicker="Onde auditamos" title="Não precisa ser uma IA própria." compact />
         </Reveal>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
-          {steps.map(([n, title, body], index) => (
-            <Reveal key={n} delay={index * 100}>
-              <article className="rounded-[34px] border border-white/10 bg-white/[0.06] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.2)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[#FF5722]/45 hover:bg-white/[0.09]">
-                <span className="rounded-full border border-white/15 px-3 py-1 text-xs font-bold text-white/55">{n}</span>
-                <h3 className="mt-10 text-3xl font-black tracking-[-0.05em]">{title}</h3>
-                <p className="mt-4 text-[15px] leading-7 text-white/58">{body}</p>
-              </article>
+        <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {scopeItems.map((item, index) => (
+            <Reveal key={item} delay={index * 40}>
+              <div className="rounded-[24px] border border-white/10 bg-white/[0.06] px-5 py-5 text-lg font-black tracking-[-0.035em] transition hover:-translate-y-1 hover:border-[#FF5722]/45 hover:bg-white/[0.1]">
+                {item}
+              </div>
             </Reveal>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
 
-function MetricsSection() {
-  return (
-    <section className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <div className="rounded-[44px] bg-white p-5 shadow-[0_30px_100px_rgba(13,13,13,0.09)] sm:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-              <div>
-                <SectionKicker>Oferta objetiva</SectionKicker>
-                <h2 className="mt-5 text-[clamp(2.35rem,4.8vw,4.55rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                  Mapeamos onde a IA atua, quanto ela custa e onde pode falhar.
-                </h2>
-                <p className="mt-5 max-w-xl text-lg leading-8 text-[#5C5C5C]">
-                  A auditoria inicial entrega uma visão simples para decidir o que corrigir primeiro.
-                </p>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <MetricCard eyebrow="custo" value={<CountUp prefix="−" to={35} suffix="%" />} tone="success" text="Menos gasto por fluxo." />
-                <MetricCard eyebrow="processo" value={<><span className="text-[#5C5C5C]/30 line-through">8s</span> → 2s</>} tone="orange" text="Menos espera para o usuário." />
-                <MetricCard eyebrow="controle" value={<CountUp to={94} suffix="%" />} tone="success" text="Processos com critério claro." />
-                <MetricCard eyebrow="risco" value={<CountUp to={0} />} tone="danger" text="Riscos críticos priorizados." />
-              </div>
-            </div>
+        <Reveal delay={180}>
+          <div className="mt-8 rounded-[28px] border border-emerald-400/20 bg-emerald-400/10 px-5 py-4 text-base font-black leading-7 text-emerald-100 sm:text-lg">
+            Não precisa ser uma IA própria. Se ela participa da operação, pode ser medida.
           </div>
         </Reveal>
       </div>
@@ -562,97 +394,22 @@ function MetricsSection() {
   );
 }
 
-function ProofSection() {
+function Deliverables() {
   return (
-    <section id="provas" className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
+    <section id="voce-recebe" className="section-skip px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
-            <div>
-              <SectionKicker>Prova social</SectionKicker>
-              <h2 className="mt-5 max-w-3xl text-[clamp(2.35rem,5vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                Empresas compram clareza, não jargão técnico.
-              </h2>
-            </div>
-            <p className="text-lg leading-8 text-[#5C5C5C]">
-              Os feedbacks mostram o valor prático: mais visibilidade, menos retrabalho e decisão mais clara.
-            </p>
-          </div>
-        </Reveal>
-
-        <div className="mt-10 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
-          {proofs.map((proof, index) => (
-            <Reveal key={proof.title} delay={index * 70}>
-              <article className="group w-[78vw] min-w-[78vw] snap-start overflow-hidden rounded-[28px] bg-white p-2 shadow-[0_18px_54px_rgba(13,13,13,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(13,13,13,0.14)] sm:w-[44vw] sm:min-w-[44vw] lg:w-auto lg:min-w-0 lg:rounded-[36px] lg:p-3">
-                <div className="relative overflow-hidden rounded-[22px] bg-[#071014] lg:rounded-[28px]">
-                  <img
-                    src={proof.src}
-                    srcSet={proof.srcSet}
-                    sizes="(max-width: 640px) 78vw, (max-width: 1024px) 44vw, 360px"
-                    alt={`Print de WhatsApp — ${proof.title}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-[9/16] w-full object-cover object-top transition duration-500 group-hover:scale-[1.025]"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/78 via-black/20 to-transparent p-4 text-white sm:p-5">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/62 sm:text-xs sm:tracking-[0.16em]">{proof.metric}</p>
-                    <h3 className="mt-2 text-lg font-black tracking-[-0.045em] sm:text-xl">{proof.title}</h3>
-                  </div>
-                </div>
-                <p className="p-3 text-sm leading-6 text-[#5C5C5C] sm:p-4 sm:text-[15px] sm:leading-7">“{proof.quote}”</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function AuditScopeSection() {
-  const scopes = [
-    "Plataformas de atendimento com IA",
-    "Chatbots e agentes comerciais",
-    "ChatGPT usado pela equipe",
-    "Automações com IA",
-    "Sistemas internos com IA",
-    "Múltiplas ferramentas no mesmo processo",
-  ];
-
-  return (
-    <section id="onde-auditamos" className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <div className="rounded-[42px] border border-white/70 bg-white/82 p-5 shadow-[0_24px_88px_rgba(13,13,13,0.09)] backdrop-blur-xl sm:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-              <div>
-                <SectionKicker>Onde auditamos</SectionKicker>
-                <h2 className="mt-5 text-[clamp(2.35rem,5vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                  Não precisa ser um sistema próprio.
-                </h2>
-                <p className="mt-5 max-w-xl text-lg leading-8 text-[#5C5C5C]">
-                  Se a IA participa da operação, ela pode ser medida: mesmo quando está dentro de uma plataforma pronta, do WhatsApp, do CRM ou do ChatGPT usado pela equipe.
-                </p>
-              </div>
+          <div className="rounded-[40px] border border-white/70 bg-white/86 p-5 shadow-[0_24px_88px_rgba(13,13,13,0.09)] backdrop-blur-xl sm:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-center">
+              <SectionHeader kicker="Você recebe" title="Relatório objetivo para saber o que corrigir primeiro." compact />
 
               <div className="grid gap-3 sm:grid-cols-2">
-                {scopes.map((scope, index) => (
-                  <Reveal key={scope} delay={index * 45}>
-                    <div className="group flex min-h-[92px] items-center gap-4 rounded-[24px] border border-black/5 bg-[#F4F4F4] p-4 transition hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_54px_rgba(13,13,13,0.08)]">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#0D0D0D] text-sm font-black text-white transition group-hover:bg-[#FF5722]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <p className="text-sm font-black leading-5 tracking-[-0.02em] text-[#0D0D0D] sm:text-base">
-                        {scope}
-                      </p>
-                    </div>
+                {deliverables.map((item, index) => (
+                  <Reveal key={item} delay={index * 45}>
+                    <div className="check-card">{item}</div>
                   </Reveal>
                 ))}
               </div>
-            </div>
-
-            <div className="mt-8 rounded-[28px] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-black leading-6 text-emerald-800 sm:text-base">
-              Não precisa ser um sistema próprio. Se a IA participa da operação, ela pode ser medida.
             </div>
           </div>
         </Reveal>
@@ -663,37 +420,21 @@ function AuditScopeSection() {
 
 function CTA() {
   return (
-    <section id="diagnostico" className="section-skip bg-[#0D0D0D] px-4 py-14 text-white sm:px-6 sm:py-20 lg:py-24">
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+    <section id="diagnostico" className="section-skip bg-[#0D0D0D] px-4 py-12 text-white sm:px-6 sm:py-16 lg:py-20">
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
         <Reveal>
           <div>
-            <SectionKicker dark>Auditoria inicial do uso de IA</SectionKicker>
-            <h2 className="mt-5 text-[clamp(2.45rem,5vw,4.8rem)] font-black leading-[0.98] tracking-[-0.06em]">
-              Mapeamos onde a IA atua, quanto ela custa e onde pode falhar.
+            <SectionKicker dark>Auditoria inicial de IA</SectionKicker>
+            <h2 className="mt-5 text-[clamp(2.35rem,5vw,4.6rem)] font-black leading-[0.98] tracking-[-0.06em]">
+              Por R$297, tiramos a dúvida em até 24h.
             </h2>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-white/62">
-              Uma primeira leitura para empresas que usam IA em atendimento, vendas, operação, ferramentas prontas, ChatGPT, automações ou sistemas internos.
+            <p className="mt-5 max-w-xl text-lg leading-8 text-white/62">
+              O formulário é curto porque a oferta precisa ser simples: identificar onde sua IA pode estar gerando perda e entregar uma leitura acionável.
             </p>
 
-            <div className="mt-7 inline-flex rounded-[24px] border border-[#FF5722]/25 bg-[#FF5722]/12 px-5 py-4 text-left shadow-[0_18px_54px_rgba(255,87,34,0.12)]">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FFAB91]">Investimento inicial</p>
-                <p className="mt-1 text-3xl font-black tracking-[-0.06em] text-white">A partir de R$297</p>
-              </div>
-            </div>
-
-            <div className="mt-8 grid gap-3 text-sm font-semibold text-white/74 sm:grid-cols-2">
-              {[
-                "Mapeamento dos pontos onde a IA aparece",
-                "Riscos de resposta e processo",
-                "Custo invisível: tokens, ferramentas e retrabalho",
-                "Consistência entre plataformas",
-                "Recomendações práticas",
-              ].map((item) => (
-                <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.06] px-4 py-3">
-                  ✓ {item}
-                </div>
-              ))}
+            <div className="mt-7 grid gap-3 sm:grid-cols-2">
+              <PricePill label="Preço" value="R$297" />
+              <PricePill label="Entrega" value="Até 24h" />
             </div>
 
             <div className="mt-8 flex items-center gap-4 rounded-[30px] border border-white/10 bg-white/[0.06] p-4 shadow-[0_18px_58px_rgba(0,0,0,0.20)] backdrop-blur-xl">
@@ -701,9 +442,9 @@ function CTA() {
                 <LazyLottie src={lotties.agreement} label="Aperto de mãos simbolizando acordo" />
               </div>
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF8A65]">próximo passo</p>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FFAB91]">próximo passo</p>
                 <p className="mt-2 text-lg font-black tracking-[-0.035em] text-white">
-                  Uma conversa curta para mapear ferramentas, riscos e prioridade.
+                  Você informa onde usa IA. Nós devolvemos o mapa dos riscos, custos e prioridades.
                 </p>
               </div>
             </div>
@@ -723,7 +464,7 @@ function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uses, setUses] = useState<string[]>([]);
-  const [suspicions, setSuspicions] = useState<string[]>([]);
+  const [problems, setProblems] = useState<string[]>([]);
 
   const toggleSelection = (value: string, current: string[], setter: (next: string[]) => void) => {
     setter(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
@@ -736,21 +477,28 @@ function ContactForm() {
     const fd = new FormData(e.currentTarget);
     const name = String(fd.get("name") ?? "").trim();
     const phone = String(fd.get("phone") ?? "").trim();
+    const note = String(fd.get("note") ?? "").trim();
 
     if (!name) return setError("Informe seu nome.");
     if (!phone) return setError("Informe seu WhatsApp.");
-    if (uses.length === 0) return setError("Selecione onde sua empresa usa IA hoje.");
-    if (suspicions.length === 0) return setError("Selecione qual suspeita você tem.");
+    if (uses.length === 0) return setError("Selecione onde sua IA é usada.");
+    if (problems.length === 0) return setError("Selecione qual problema você suspeita.");
 
     const message = [
-      "Auditoria inicial do uso de IA",
+      "Auditoria inicial de IA — R$297",
+      "Relatório em até 24h",
       "",
-      "Onde sua empresa usa IA hoje:",
+      "Onde sua IA é usada:",
       ...uses.map((item) => `- ${item}`),
       "",
-      "Qual suspeita você tem:",
-      ...suspicions.map((item) => `- ${item}`),
-    ].join("\n");
+      "Qual problema você suspeita:",
+      ...problems.map((item) => `- ${item}`),
+      note ? "" : null,
+      note ? "Observação opcional:" : null,
+      note || null,
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     setLoading(true);
     try {
@@ -782,29 +530,43 @@ function ContactForm() {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF5722]">Auditoria inicial</p>
-            <h3 className="mt-2 text-2xl font-black tracking-[-0.045em]">Mapear minha IA</h3>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF5722]">Solicitar auditoria</p>
+            <h3 className="mt-2 text-2xl font-black tracking-[-0.045em]">Vamos mapear sua IA</h3>
             <p className="mt-2 text-sm leading-6 text-[#5C5C5C]">
-              Responda 4 passos rápidos. O próprio formulário já ajuda a localizar onde a IA está na operação.
+              Preencha o mínimo necessário. As respostas qualificam a auditoria sem campo aberto longo.
             </p>
           </div>
 
-          <Field label="Nome *" name="name" type="text" placeholder="Seu nome" required />
-          <Field label="WhatsApp *" name="phone" type="tel" placeholder="+55 (44) 99999-9999" required />
+          <Field label="Nome *" name="name" type="text" placeholder="Seu nome" required autoComplete="name" />
+          <Field label="WhatsApp *" name="phone" type="tel" placeholder="+55 (44) 99999-9999" required autoComplete="tel" />
 
           <ChoiceGroup
-            label="Onde sua empresa usa IA hoje? *"
+            label="Onde sua IA é usada? *"
             options={aiUseOptions}
             selected={uses}
             onToggle={(option) => toggleSelection(option, uses, setUses)}
           />
 
           <ChoiceGroup
-            label="Qual suspeita você tem? *"
-            options={suspicionOptions}
-            selected={suspicions}
-            onToggle={(option) => toggleSelection(option, suspicions, setSuspicions)}
+            label="Qual problema você suspeita? *"
+            options={problemOptions}
+            selected={problems}
+            onToggle={(option) => toggleSelection(option, problems, setProblems)}
           />
+
+          <div>
+            <label htmlFor="note" className="mb-2 block text-xs font-bold text-[#0D0D0D]/70">
+              Quer explicar em uma frase? <span className="font-medium text-[#5C5C5C]">(opcional)</span>
+            </label>
+            <textarea
+              id="note"
+              name="note"
+              rows={2}
+              maxLength={240}
+              placeholder="Ex.: acho que o chatbot perde leads fora do horário comercial."
+              className="input min-h-[86px] resize-none"
+            />
+          </div>
 
           {error && (
             <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
@@ -817,14 +579,85 @@ function ContactForm() {
             disabled={loading}
             className="w-full rounded-[20px] bg-[#0D0D0D] px-6 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#FF5722] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? "Enviando…" : "Mapear minha IA"}
+            {loading ? "Enviando…" : "Solicitar auditoria"}
           </button>
 
           <p className="text-center text-[11px] leading-5 text-[#5C5C5C]">
-            Ao enviar, você concorda em ser contatado sobre a auditoria inicial.
+            Ao enviar, você concorda em ser contatado sobre a auditoria inicial de IA.
           </p>
         </form>
       )}
+    </div>
+  );
+}
+
+function Credibility() {
+  return (
+    <section className="section-skip px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <div className="grid gap-5 lg:grid-cols-3">
+            <CredibilityCard title="Oferta comprável" text="Preço, prazo e entrega aparecem antes da dobra." />
+            <CredibilityCard title="Sem jargão no começo" text="Primeiro vem perda, custo, tempo e controle. Termos técnicos ficam fora do caminho." />
+            <CredibilityCard title="Aplicável a ferramentas prontas" text="WhatsApp, CRM, ChatGPT, automações e plataformas externas entram na análise." />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function CredibilityCard({ title, text }: { title: string; text: string }) {
+  return (
+    <article className="rounded-[28px] border border-white/70 bg-white/82 p-6 shadow-[0_18px_60px_rgba(13,13,13,0.07)] backdrop-blur-xl">
+      <h3 className="text-xl font-black tracking-[-0.04em]">{title}</h3>
+      <p className="mt-3 text-sm leading-6 text-[#5C5C5C]">{text}</p>
+    </article>
+  );
+}
+
+function SectionHeader({ kicker, title, dark = false, compact = false }: { kicker: string; title: string; dark?: boolean; compact?: boolean }) {
+  return (
+    <div>
+      <SectionKicker dark={dark}>{kicker}</SectionKicker>
+      <h2 className={`${compact ? "mt-4 max-w-3xl text-[clamp(2.05rem,4.8vw,4rem)]" : "mt-5 text-[clamp(2.35rem,5vw,4.6rem)]"} font-black leading-[0.98] tracking-[-0.06em] ${dark ? "text-white" : "text-[#0D0D0D]"}`}>
+        {title}
+      </h2>
+    </div>
+  );
+}
+
+function SectionKicker({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
+  return (
+    <div className="inline-flex items-center gap-2">
+      <span className={`h-2 w-2 rounded-full ${dark ? "bg-[#FF5722]" : "bg-[#0D0D0D]"}`} />
+      <span className={`text-xs font-black uppercase tracking-[0.18em] ${dark ? "text-white/52" : "text-[#5C5C5C]"}`}>
+        {children}
+      </span>
+    </div>
+  );
+}
+
+function ShortCard({ children, tone }: { children: ReactNode; tone: "danger" | "orange" | "neutral" }) {
+  const toneClass =
+    tone === "danger"
+      ? "border-red-200 bg-red-50 text-red-800"
+      : tone === "orange"
+        ? "border-orange-200 bg-orange-50 text-orange-800"
+        : "border-black/5 bg-white text-[#0D0D0D]";
+
+  return (
+    <div className={`min-h-[112px] rounded-[26px] border p-5 text-xl font-black leading-tight tracking-[-0.04em] shadow-[0_16px_54px_rgba(13,13,13,0.06)] transition hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(13,13,13,0.10)] ${toneClass}`}>
+      {children}
+    </div>
+  );
+}
+
+function PricePill({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[26px] border border-white/10 bg-white/[0.06] p-5">
+      <p className="text-xs font-black uppercase tracking-[0.16em] text-white/44">{label}</p>
+      <p className="mt-2 text-3xl font-black tracking-[-0.06em] text-white">{value}</p>
     </div>
   );
 }
@@ -876,19 +709,21 @@ function Field({
   type,
   placeholder,
   required,
+  autoComplete,
 }: {
   label: string;
   name: string;
   type: string;
   placeholder?: string;
   required?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <div>
       <label htmlFor={name} className="mb-2 block text-xs font-bold text-[#0D0D0D]/70">
         {label}
       </label>
-      <input id={name} name={name} type={type} placeholder={placeholder} required={required} className="input" />
+      <input id={name} name={name} type={type} placeholder={placeholder} required={required} autoComplete={autoComplete} className="input" />
     </div>
   );
 }
@@ -906,85 +741,6 @@ function Footer() {
     </footer>
   );
 }
-
-function SectionKicker({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
-  return (
-    <div className="inline-flex items-center gap-2">
-      <span className={`h-2 w-2 rounded-full ${dark ? "bg-[#FF5722]" : "bg-[#0D0D0D]"}`} />
-      <span className={`text-xs font-black uppercase tracking-[0.18em] ${dark ? "text-white/52" : "text-[#5C5C5C]"}`}>
-        {children}
-      </span>
-    </div>
-  );
-}
-
-function Semantic({ children, tone }: { children: ReactNode; tone: "danger" | "orange" | "success" }) {
-  const color = tone === "danger" ? "text-red-600" : tone === "orange" ? "text-[#FF5722]" : "text-emerald-700";
-  return <span className={`font-black ${color}`}>{children}</span>;
-}
-
-function ToneBadge({ children, tone }: { children: ReactNode; tone: "danger" | "orange" | "success" }) {
-  const classes =
-    tone === "danger"
-      ? "bg-red-100 text-red-700"
-      : tone === "orange"
-        ? "bg-orange-100 text-orange-700"
-        : "bg-emerald-100 text-emerald-700";
-  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-black ${classes}`}>{children}</span>;
-}
-
-function MiniMetric({
-  label,
-  to,
-  from = 0,
-  prefix = "",
-  suffix = "",
-  tone,
-}: {
-  label: string;
-  to: number;
-  from?: number;
-  prefix?: string;
-  suffix?: string;
-  tone: "success" | "orange" | "danger";
-}) {
-  const color = tone === "success" ? "text-emerald-700" : tone === "orange" ? "text-[#FF5722]" : "text-red-700";
-  return (
-    <div className="rounded-[24px] border border-white/70 bg-white/74 p-4 shadow-[0_12px_34px_rgba(13,13,13,0.08)] backdrop-blur-xl transition hover:-translate-y-1">
-      <p className={`text-3xl font-black tracking-[-0.06em] ${color}`}>
-        <CountUp from={from} prefix={prefix} to={to} suffix={suffix} />
-      </p>
-      <p className="mt-1 text-xs font-bold text-[#5C5C5C]">{label}</p>
-    </div>
-  );
-}
-
-function MetricCard({
-  eyebrow,
-  value,
-  text,
-  tone,
-}: {
-  eyebrow: string;
-  value: ReactNode;
-  text: string;
-  tone: "success" | "orange" | "danger";
-}) {
-  const toneClass =
-    tone === "success"
-      ? "text-emerald-700 bg-emerald-50"
-      : tone === "orange"
-        ? "text-[#FF5722] bg-orange-50"
-        : "text-red-700 bg-red-50";
-  return (
-    <article className="group rounded-[30px] border border-black/5 bg-[#F4F4F4] p-5 transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_20px_60px_rgba(13,13,13,0.10)]">
-      <p className={`inline-flex rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em] ${toneClass}`}>{eyebrow}</p>
-      <div className="mt-5 text-5xl font-black tracking-[-0.07em]">{value}</div>
-      <p className="mt-4 text-sm leading-6 text-[#5C5C5C]">{text}</p>
-    </article>
-  );
-}
-
 
 let dotLottieScriptPromise: Promise<void> | null = null;
 
@@ -1048,73 +804,6 @@ function LottieFallback() {
   );
 }
 
-function CountUp({
-  to,
-  from = 0,
-  prefix = "",
-  suffix = "",
-  duration = 1100,
-}: {
-  to: number;
-  from?: number;
-  prefix?: string;
-  suffix?: string;
-  duration?: number;
-}) {
-  const [ref, visible] = useInView<HTMLSpanElement>();
-  const [value, setValue] = useState(from);
-
-  useEffect(() => {
-    if (!visible) return;
-    let frame = 0;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(from + (to - from) * eased);
-      if (progress < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [duration, from, to, visible]);
-
-  return (
-    <span ref={ref}>
-      {prefix}
-      {Math.round(value).toLocaleString("pt-BR")}
-      {suffix}
-    </span>
-  );
-}
-
-function TypewriterText({ text, speed = 22 }: { text: string; speed?: number }) {
-  const [ref, visible] = useInView<HTMLSpanElement>();
-  const [display, setDisplay] = useState("");
-
-  useEffect(() => {
-    if (!visible) return;
-    const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      setDisplay(text);
-      return;
-    }
-    let index = 0;
-    const id = window.setInterval(() => {
-      index += 1;
-      setDisplay(text.slice(0, index));
-      if (index >= text.length) window.clearInterval(id);
-    }, speed);
-    return () => window.clearInterval(id);
-  }, [speed, text, visible]);
-
-  return (
-    <span ref={ref} className="typewriter">
-      {display}
-      {visible && display.length < text.length ? <span className="cursor">|</span> : null}
-    </span>
-  );
-}
-
 function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const [ref, visible] = useInView<HTMLDivElement>();
   return (
@@ -1131,7 +820,7 @@ function useInView<T extends HTMLElement>(config?: { threshold?: number; rootMar
   const rootMargin = config?.rootMargin ?? "0px 0px -8% 0px";
 
   useEffect(() => {
-    if (!ref.current || visible) return;
+    if (!ref.current || visible || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -1154,7 +843,7 @@ function DesignCss() {
       html { scroll-behavior: smooth; }
       body { text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
       @supports (content-visibility: auto) {
-        .section-skip { content-visibility: auto; contain-intrinsic-size: 1px 820px; }
+        .section-skip { content-visibility: auto; contain-intrinsic-size: 1px 680px; }
       }
       .primary-btn,
       .secondary-btn {
@@ -1181,13 +870,13 @@ function DesignCss() {
       .secondary-btn {
         color: #0D0D0D;
         border: 1px solid rgba(13, 13, 13, 0.16);
-        background: rgba(255,255,255,0.62);
+        background: rgba(255,255,255,0.7);
         backdrop-filter: blur(14px);
       }
       .secondary-btn:hover {
         transform: translateY(-2px);
         border-color: rgba(13, 13, 13, 0.34);
-        background: rgba(255,255,255,0.95);
+        background: rgba(255,255,255,0.98);
       }
       .hover-link { position: relative; transition: color 180ms ease; }
       .hover-link:hover { color: #0D0D0D; }
@@ -1231,21 +920,39 @@ function DesignCss() {
         background: white;
         box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.10);
       }
+      .check-row::before,
+      .check-card::before {
+        content: "✓";
+        display: inline-grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        margin-right: 10px;
+        border-radius: 999px;
+        background: #ECFDF5;
+        color: #047857;
+        font-size: 12px;
+        font-weight: 900;
+        vertical-align: middle;
+      }
+      .check-card {
+        display: flex;
+        align-items: center;
+        min-height: 76px;
+        border-radius: 24px;
+        border: 1px solid rgba(13,13,13,0.06);
+        background: #F4F4F4;
+        padding: 18px;
+        font-size: 16px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+      }
       .reveal {
         opacity: 0;
-        transform: translateY(24px);
-        transition: opacity 700ms ease, transform 700ms ease;
+        transform: translateY(22px);
+        transition: opacity 650ms ease, transform 650ms ease;
       }
       .reveal.is-visible { opacity: 1; transform: translateY(0); }
-      .cursor {
-        display: inline-block;
-        color: #FF5722;
-        animation: blink 850ms steps(1) infinite;
-      }
-      @keyframes blink {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0; }
-      }
       @media (max-width: 640px) {
         .primary-btn,
         .secondary-btn {
@@ -1254,7 +961,7 @@ function DesignCss() {
           border-radius: 18px;
           padding: 0 20px;
         }
-        .section-skip { contain-intrinsic-size: 1px 680px; }
+        .section-skip { contain-intrinsic-size: 1px 620px; }
       }
       @media (prefers-reduced-motion: reduce) {
         * { animation: none !important; transition-duration: 1ms !important; scroll-behavior: auto !important; }
