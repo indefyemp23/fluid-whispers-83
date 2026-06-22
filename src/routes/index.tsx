@@ -95,23 +95,45 @@ const proofs = [
   },
 ];
 
+
+const aiUseOptions = [
+  "Atendimento ao cliente",
+  "Vendas/CRM",
+  "WhatsApp/chatbot",
+  "ChatGPT pela equipe",
+  "Automação interna",
+  "Sistema próprio",
+  "Plataforma externa com IA",
+  "Mais de uma ferramenta",
+] as const;
+
+const suspicionOptions = [
+  "Respostas erradas",
+  "Custo alto",
+  "Retrabalho",
+  "Lentidão",
+  "Falta de controle",
+  "Não sei medir",
+  "Quero mapear tudo",
+] as const;
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gomes Solutions — Governança e Otimização de IA" },
+      { title: "Gomes Solutions — Auditoria do uso de IA na sua empresa" },
       {
         name: "description",
         content:
-          "Diagnóstico de IA empresarial para encontrar falhas, reduzir custo de tokens e criar governança mensurável em agentes, prompts e fluxos em produção.",
+          "Auditoria de IA em ferramentas, agentes e processos: atendimento, vendas, automações, ChatGPT, plataformas externas e sistemas internos.",
       },
       {
         property: "og:title",
-        content: "Gomes Solutions — Sua IA parece funcionar. Nós provamos.",
+        content: "Gomes Solutions — Sua empresa usa IA em mais lugares do que imagina.",
       },
       {
         property: "og:description",
         content:
-          "Auditoria, métricas e governança para IA em produção: menos custo, menos erro e mais visibilidade.",
+          "Mapeamos onde a IA atua, quanto ela custa e onde pode falhar na operação.",
       },
       { property: "og:image", content: "/gomes-logo.svg" },
       { name: "theme-color", content: "#F4F4F4" },
@@ -141,6 +163,7 @@ function Index() {
       <MethodSection />
       <MetricsSection />
       <ProofSection />
+      <AuditScopeSection />
       <CTA />
       <Footer />
     </main>
@@ -207,7 +230,7 @@ function MobileStickyCTA() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/92 px-4 py-3 shadow-[0_-14px_40px_rgba(13,13,13,0.10)] backdrop-blur-xl md:hidden [padding-bottom:calc(0.75rem+env(safe-area-inset-bottom))]">
       <a href="#diagnostico" className="flex min-h-12 items-center justify-center rounded-[18px] bg-[#0D0D0D] px-5 text-sm font-black text-white active:scale-[0.98]">
-        Diagnóstico gratuito em 24h
+        Mapear minha IA
       </a>
     </div>
   );
@@ -230,16 +253,19 @@ function Nav() {
 
         <nav className="hidden items-center gap-7 text-sm font-semibold text-[#5C5C5C] md:flex">
           <a className="hover-link" href="#problema">
-            Problema
+            Riscos
           </a>
           <a className="hover-link" href="#metodo">
             Método
+          </a>
+          <a className="hover-link" href="#onde-auditamos">
+            Onde auditamos
           </a>
           <a className="hover-link" href="#provas">
             Provas
           </a>
           <a className="hover-link" href="#diagnostico">
-            Diagnóstico
+            Auditoria
           </a>
         </nav>
 
@@ -247,7 +273,7 @@ function Nav() {
           href="#diagnostico"
           className="rounded-[20px] bg-[#0D0D0D] px-4 py-3 text-xs font-bold text-white shadow-[0_12px_32px_rgba(13,13,13,0.18)] transition hover:-translate-y-0.5 hover:bg-[#FF5722] hover:shadow-[0_18px_44px_rgba(255,87,34,0.24)] sm:px-5 sm:text-sm"
         >
-          Auditar IA
+          Mapear minha IA
         </a>
       </div>
     </header>
@@ -264,33 +290,33 @@ function Hero() {
           <div className="max-w-[680px]">
             <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/78 px-3 py-1.5 text-xs font-bold text-[#5C5C5C] shadow-[0_8px_28px_rgba(13,13,13,0.08)] backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-[#FF5722] shadow-[0_0_0_6px_rgba(255,87,34,0.12)]" />
-              Diagnóstico de IA em produção
+              Auditoria de IA em ferramentas, agentes e processos
             </div>
 
             <h1 className="mt-6 text-[clamp(2.75rem,15vw,6.4rem)] font-black leading-[0.9] tracking-[-0.075em] text-[#0D0D0D] sm:mt-7 sm:leading-[0.92]">
-              Sua IA parece funcionar.
+              Sua empresa usa IA em mais lugares
               <span className="mt-3 block text-[#FF5722]">
-                Nós provamos.
+                do que imagina.
               </span>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-7 text-[#565656] sm:mt-7 sm:text-xl sm:leading-8">
-              Encontramos <Semantic tone="danger">erros invisíveis</Semantic>, cortamos <Semantic tone="orange">custo de tokens</Semantic> e criamos <Semantic tone="success">governança mensurável</Semantic> para agentes, prompts e fluxos já em operação.
+              Atendimento, vendas, automações, ChatGPT, agentes e plataformas externas podem estar <Semantic tone="danger">respondendo</Semantic>, <Semantic tone="orange">decidindo</Semantic> ou <Semantic tone="success">influenciando processos</Semantic> sem medição clara.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               <a href="#diagnostico" className="primary-btn">
-                Solicitar diagnóstico gratuito
+                Solicitar auditoria inicial
               </a>
-              <a href="#provas" className="secondary-btn">
-                Ver provas reais
+              <a href="#onde-auditamos" className="secondary-btn">
+                Ver onde auditamos
               </a>
             </div>
 
             <div className="mt-7 grid max-w-xl grid-cols-3 gap-2 sm:mt-9 sm:gap-3">
-              <MiniMetric label="tokens" prefix="−" to={35} suffix="%" tone="success" />
-              <MiniMetric label="resposta" from={8} to={2} suffix="s" tone="orange" />
-              <MiniMetric label="incidentes" to={0} tone="danger" />
+              <MiniMetric label="custo invisível" prefix="−" to={35} suffix="%" tone="success" />
+              <MiniMetric label="velocidade" from={8} to={2} suffix="s" tone="orange" />
+              <MiniMetric label="riscos" to={0} tone="danger" />
             </div>
           </div>
         </Reveal>
@@ -306,8 +332,8 @@ function Hero() {
 function SignalVisual() {
   const rows = [
     { label: "Atendimento", before: 88, after: 42, tone: "danger" },
-    { label: "Cadastro", before: 64, after: 31, tone: "orange" },
-    { label: "2ª via", before: 71, after: 22, tone: "success" },
+    { label: "Vendas/CRM", before: 64, after: 31, tone: "orange" },
+    { label: "Automação", before: 71, after: 22, tone: "success" },
   ] as const;
 
   return (
@@ -315,9 +341,9 @@ function SignalVisual() {
       <div className="rounded-[24px] border border-black/5 bg-[#0D0D0D] p-4 text-white sm:rounded-[30px] sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/42">Mapa de diagnóstico</p>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/42">Mapa de uso da IA</p>
             <h2 className="mt-3 max-w-sm text-2xl font-black leading-none tracking-[-0.055em] sm:text-4xl">
-              O que medir antes de confiar na IA.
+              Sua IA pode estar em várias ferramentas. O risco também.
             </h2>
           </div>
           <div className="hidden h-24 w-24 shrink-0 rounded-[28px] bg-white/[0.06] p-2 sm:block">
@@ -326,15 +352,15 @@ function SignalVisual() {
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-3">
-          <SignalCard label="erros ocultos" value="12" tone="danger" />
-          <SignalCard label="custo evitável" value="−35%" tone="orange" />
-          <SignalCard label="governança" value="94%" tone="success" />
+          <SignalCard label="respostas erradas" value="12" tone="danger" />
+          <SignalCard label="custo invisível" value="−35%" tone="orange" />
+          <SignalCard label="controle" value="94%" tone="success" />
         </div>
 
         <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
             <div className="mb-5 flex items-center justify-between">
-              <p className="text-sm font-black text-white/82">Risco por fluxo</p>
+              <p className="text-sm font-black text-white/82">Risco por processo</p>
               <span className="rounded-full bg-[#FF5722]/14 px-3 py-1 text-[11px] font-black text-[#FF8A65]">antes → depois</span>
             </div>
 
@@ -358,7 +384,7 @@ function SignalVisual() {
           </div>
 
           <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
-            <p className="text-sm font-black text-white/82">Prioridade da auditoria</p>
+            <p className="text-sm font-black text-white/82">Prioridades do mapa</p>
             <div className="mt-5 grid place-items-center">
               <svg viewBox="0 0 120 120" className="h-36 w-36 -rotate-90">
                 <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="16" />
@@ -368,7 +394,7 @@ function SignalVisual() {
               </svg>
               <div className="-mt-24 text-center">
                 <p className="text-4xl font-black tracking-[-0.07em] text-white">3</p>
-                <p className="text-xs font-bold text-white/45">frentes críticas</p>
+                <p className="text-xs font-bold text-white/45">frentes de risco</p>
               </div>
             </div>
 
@@ -381,9 +407,9 @@ function SignalVisual() {
         </div>
 
         <div className="mt-4 rounded-[24px] border border-white/10 bg-white/[0.05] p-4">
-          <p className="text-sm font-black text-white/82">Saída do diagnóstico</p>
+          <p className="text-sm font-black text-white/82">Saída da auditoria</p>
           <p className="mt-2 text-sm leading-6 text-white/54">
-            Uma lista curta de correções, riscos e métricas que a operação entende sem precisar decifrar uma tela cheia de informações.
+            Um mapa simples de onde a IA atua, quanto custa e onde pode falhar — mesmo quando ela está dentro de ferramentas prontas.
           </p>
         </div>
       </div>
@@ -405,22 +431,22 @@ function ProblemSection() {
   const cards = [
     {
       badge: "falha oculta",
-      title: "A IA responde, mas ninguém sabe se está certa.",
-      text: "Transformamos achismo em critérios mensuráveis por fluxo.",
+      title: "A IA responde em vários canais, mas ninguém mede o padrão.",
+      text: "Medimos consistência, risco de resposta e retrabalho humano.",
       tone: "danger" as const,
       lottie: lotties.problem,
     },
     {
       badge: "custo alto",
-      title: "Modelo caro demais para problemas simples.",
-      text: "Cortamos contexto, prompts inchados e chamadas desnecessárias.",
+      title: "Ferramentas com IA podem esconder custo e retrabalho.",
+      text: "Mapeamos tokens, assinaturas, etapas duplicadas e processos lentos.",
       tone: "orange" as const,
       lottie: lotties.exhausted,
     },
     {
-      badge: "sem governança",
-      title: "A diretoria quer resposta, não sensação de avanço.",
-      text: "Criamos painel, alertas e métricas que mostram o resultado.",
+      badge: "sem controle",
+      title: "Mais de uma ferramenta pode quebrar o mesmo processo.",
+      text: "Mostramos onde falta controle, métrica e dono operacional.",
       tone: "success" as const,
       lottie: lotties.report,
     },
@@ -432,13 +458,13 @@ function ProblemSection() {
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <SectionKicker>O ponto cego</SectionKicker>
+              <SectionKicker>O risco invisível</SectionKicker>
               <h2 className="mt-5 max-w-3xl text-[clamp(2.4rem,5vw,4.8rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                <TypewriterText text="O problema não é usar IA. É operar sem enxergar onde ela falha." />
+                <TypewriterText text="O problema não é usar IA. É não saber onde ela atua." />
               </h2>
             </div>
             <p className="max-w-xl text-lg leading-8 text-[#5C5C5C]">
-              Reduzimos a densidade da experiência: cada bloco agora responde uma pergunta simples — falha, custo ou governança.
+              Reduzimos a densidade da experiência: cada bloco agora responde uma pergunta simples — falha, custo ou controle.
             </p>
           </div>
         </Reveal>
@@ -466,9 +492,9 @@ function ProblemSection() {
 
 function MethodSection() {
   const steps = [
-    ["01", "Auditoria", "Mapeamos agentes, prompts, ferramentas e fluxos reais."],
-    ["02", "Medição", "Definimos critérios de qualidade, custo, latência e risco."],
-    ["03", "Governança", "Transformamos melhoria em padrão, alerta e relatório executivo."],
+    ["01", "Auditoria", "Mapeamos onde a IA aparece: atendimento, vendas, ChatGPT, automações, ferramentas e sistemas."],
+    ["02", "Medição", "Medimos risco de resposta, retrabalho, custo invisível e consistência entre plataformas."],
+    ["03", "Governança", "Entregamos recomendações práticas para reduzir falha, custo e descontrole."],
   ];
 
   return (
@@ -480,11 +506,11 @@ function MethodSection() {
             <div>
               <SectionKicker dark>Método Gomes+</SectionKicker>
               <h2 className="mt-5 max-w-3xl text-[clamp(2.35rem,5vw,4.8rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                De IA experimental para <span className="text-[#FF5722]">operação controlada</span>.
+                De uso espalhado de IA para <span className="text-[#FF5722]">operação medida</span>.
               </h2>
             </div>
             <p className="text-lg leading-8 text-white/60">
-              Menos texto. Mais decisão. O processo fica claro em três etapas.
+              Sem depender de sistema próprio. Se a IA participa da operação, ela entra no mapa.
             </p>
           </div>
         </Reveal>
@@ -513,20 +539,20 @@ function MetricsSection() {
           <div className="rounded-[44px] bg-white p-5 shadow-[0_30px_100px_rgba(13,13,13,0.09)] sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
               <div>
-                <SectionKicker>Resultado explicado</SectionKicker>
+                <SectionKicker>Oferta objetiva</SectionKicker>
                 <h2 className="mt-5 text-[clamp(2.35rem,4.8vw,4.55rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                  Métrica só importa quando muda uma decisão.
+                  Mapeamos onde a IA atua, quanto ela custa e onde pode falhar.
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-8 text-[#5C5C5C]">
-                  O painel executivo mostra onde o ganho aparece: custo, velocidade, qualidade e risco.
+                  A auditoria inicial entrega uma visão simples para decidir o que corrigir primeiro.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <MetricCard eyebrow="tokens" value={<CountUp prefix="−" to={35} suffix="%" />} tone="success" text="Menos gasto por fluxo." />
-                <MetricCard eyebrow="resposta" value={<><span className="text-[#5C5C5C]/30 line-through">8s</span> → 2s</>} tone="orange" text="Menos espera para o usuário." />
-                <MetricCard eyebrow="qualidade" value={<CountUp to={94} suffix="%" />} tone="success" text="Prompts aprovados com critério." />
-                <MetricCard eyebrow="incidentes" value={<CountUp to={0} />} tone="danger" text="Falhas críticas monitoradas." />
+                <MetricCard eyebrow="custo" value={<CountUp prefix="−" to={35} suffix="%" />} tone="success" text="Menos gasto por fluxo." />
+                <MetricCard eyebrow="processo" value={<><span className="text-[#5C5C5C]/30 line-through">8s</span> → 2s</>} tone="orange" text="Menos espera para o usuário." />
+                <MetricCard eyebrow="controle" value={<CountUp to={94} suffix="%" />} tone="success" text="Processos com critério claro." />
+                <MetricCard eyebrow="risco" value={<CountUp to={0} />} tone="danger" text="Riscos críticos priorizados." />
               </div>
             </div>
           </div>
@@ -545,11 +571,11 @@ function ProofSection() {
             <div>
               <SectionKicker>Prova social</SectionKicker>
               <h2 className="mt-5 max-w-3xl text-[clamp(2.35rem,5vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em]">
-                O cliente não elogia tecnologia. Ele elogia alívio operacional.
+                Empresas compram clareza, não jargão técnico.
               </h2>
             </div>
             <p className="text-lg leading-8 text-[#5C5C5C]">
-              Prints fixados: visibilidade, menos retrabalho, custo menor e resposta mais rápida.
+              Os feedbacks mostram o valor prático: mais visibilidade, menos retrabalho e decisão mais clara.
             </p>
           </div>
         </Reveal>
@@ -583,24 +609,92 @@ function ProofSection() {
   );
 }
 
+function AuditScopeSection() {
+  const scopes = [
+    "Plataformas de atendimento com IA",
+    "Chatbots e agentes comerciais",
+    "ChatGPT usado pela equipe",
+    "Automações com IA",
+    "Sistemas internos com IA",
+    "Múltiplas ferramentas no mesmo processo",
+  ];
+
+  return (
+    <section id="onde-auditamos" className="section-skip px-4 py-14 sm:px-6 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <div className="rounded-[42px] border border-white/70 bg-white/82 p-5 shadow-[0_24px_88px_rgba(13,13,13,0.09)] backdrop-blur-xl sm:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+              <div>
+                <SectionKicker>Onde auditamos</SectionKicker>
+                <h2 className="mt-5 text-[clamp(2.35rem,5vw,4.75rem)] font-black leading-[0.98] tracking-[-0.06em]">
+                  Não precisa ser um sistema próprio.
+                </h2>
+                <p className="mt-5 max-w-xl text-lg leading-8 text-[#5C5C5C]">
+                  Se a IA participa da operação, ela pode ser medida: mesmo quando está dentro de uma plataforma pronta, do WhatsApp, do CRM ou do ChatGPT usado pela equipe.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {scopes.map((scope, index) => (
+                  <Reveal key={scope} delay={index * 45}>
+                    <div className="group flex min-h-[92px] items-center gap-4 rounded-[24px] border border-black/5 bg-[#F4F4F4] p-4 transition hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_54px_rgba(13,13,13,0.08)]">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#0D0D0D] text-sm font-black text-white transition group-hover:bg-[#FF5722]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <p className="text-sm font-black leading-5 tracking-[-0.02em] text-[#0D0D0D] sm:text-base">
+                        {scope}
+                      </p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-[28px] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-black leading-6 text-emerald-800 sm:text-base">
+              Não precisa ser um sistema próprio. Se a IA participa da operação, ela pode ser medida.
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function CTA() {
   return (
     <section id="diagnostico" className="section-skip bg-[#0D0D0D] px-4 py-14 text-white sm:px-6 sm:py-20 lg:py-24">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
         <Reveal>
           <div>
-            <SectionKicker dark>Diagnóstico gratuito</SectionKicker>
+            <SectionKicker dark>Auditoria inicial do uso de IA</SectionKicker>
             <h2 className="mt-5 text-[clamp(2.45rem,5vw,4.8rem)] font-black leading-[0.98] tracking-[-0.06em]">
-              Vamos descobrir onde sua IA está vazando resultado.
+              Mapeamos onde a IA atua, quanto ela custa e onde pode falhar.
             </h2>
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/62">
-              Você recebe uma primeira leitura do ambiente e próximos passos objetivos em até 24h.
+              Uma primeira leitura para empresas que usam IA em atendimento, vendas, operação, ferramentas prontas, ChatGPT, automações ou sistemas internos.
             </p>
-            <ul className="mt-8 grid gap-3 text-sm font-semibold text-white/72">
-              <li>✓ Sem compromisso</li>
-              <li>✓ Análise inicial em até 24h</li>
-              <li>✓ Foco em custo, qualidade e governança</li>
-            </ul>
+
+            <div className="mt-7 inline-flex rounded-[24px] border border-[#FF5722]/25 bg-[#FF5722]/12 px-5 py-4 text-left shadow-[0_18px_54px_rgba(255,87,34,0.12)]">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FFAB91]">Investimento inicial</p>
+                <p className="mt-1 text-3xl font-black tracking-[-0.06em] text-white">A partir de R$497</p>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-3 text-sm font-semibold text-white/74 sm:grid-cols-2">
+              {[
+                "Mapeamento dos pontos onde a IA aparece",
+                "Riscos de resposta e processo",
+                "Custo invisível: tokens, ferramentas e retrabalho",
+                "Consistência entre plataformas",
+                "Recomendações práticas",
+              ].map((item) => (
+                <div key={item} className="rounded-[20px] border border-white/10 bg-white/[0.06] px-4 py-3">
+                  ✓ {item}
+                </div>
+              ))}
+            </div>
 
             <div className="mt-8 flex items-center gap-4 rounded-[30px] border border-white/10 bg-white/[0.06] p-4 shadow-[0_18px_58px_rgba(0,0,0,0.20)] backdrop-blur-xl">
               <div className="h-24 w-24 shrink-0 rounded-[24px] bg-white/[0.06] p-2">
@@ -609,7 +703,7 @@ function CTA() {
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF8A65]">próximo passo</p>
                 <p className="mt-2 text-lg font-black tracking-[-0.035em] text-white">
-                  Uma conversa curta para definir escopo, risco e prioridade.
+                  Uma conversa curta para mapear ferramentas, riscos e prioridade.
                 </p>
               </div>
             </div>
@@ -628,7 +722,12 @@ function ContactForm() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [messageLen, setMessageLen] = useState(0);
+  const [uses, setUses] = useState<string[]>([]);
+  const [suspicions, setSuspicions] = useState<string[]>([]);
+
+  const toggleSelection = (value: string, current: string[], setter: (next: string[]) => void) => {
+    setter(current.includes(value) ? current.filter((item) => item !== value) : [...current, value]);
+  };
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -637,20 +736,29 @@ function ContactForm() {
     const fd = new FormData(e.currentTarget);
     const name = String(fd.get("name") ?? "").trim();
     const phone = String(fd.get("phone") ?? "").trim();
-    const message = String(fd.get("message") ?? "").trim();
 
     if (!name) return setError("Informe seu nome.");
     if (!phone) return setError("Informe seu WhatsApp.");
-    if (!message) return setError("Conte rapidamente o que sua IA faz hoje.");
-    if (message.length > 1000) return setError("Mensagem muito longa. Máximo de 1000 caracteres.");
+    if (uses.length === 0) return setError("Selecione onde sua empresa usa IA hoje.");
+    if (suspicions.length === 0) return setError("Selecione qual suspeita você tem.");
+
+    const message = [
+      "Auditoria inicial do uso de IA",
+      "",
+      "Onde sua empresa usa IA hoje:",
+      ...uses.map((item) => `- ${item}`),
+      "",
+      "Qual suspeita você tem:",
+      ...suspicions.map((item) => `- ${item}`),
+    ].join("\n");
 
     setLoading(true);
     try {
       await submitLead({
         phone,
         name,
-        email: String(fd.get("email") ?? "") || null,
-        company: String(fd.get("company") ?? "") || null,
+        email: null,
+        company: null,
         message,
         attribution: collectAttribution(),
       });
@@ -672,34 +780,31 @@ function ContactForm() {
           <p className="mt-2 text-sm text-[#5C5C5C]">Entraremos em contato em até 24h.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Nome *" name="name" type="text" placeholder="Seu nome" required />
-            <Field label="Empresa" name="company" type="text" placeholder="Nome da empresa" />
-          </div>
-          <Field label="E-mail corporativo" name="email" type="email" placeholder="voce@empresa.com" />
-          <Field label="WhatsApp *" name="phone" type="tel" placeholder="+55 (11) 99999-9999" required />
-
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <div className="mb-2 flex items-center justify-between">
-              <label htmlFor="message" className="text-xs font-bold text-[#0D0D0D]/70">
-                O que sua IA faz hoje? *
-              </label>
-              <span className={`text-[11px] ${messageLen > 1000 ? "text-red-600" : "text-[#5C5C5C]"}`}>
-                {messageLen}/1000
-              </span>
-            </div>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              maxLength={1000}
-              onChange={(e) => setMessageLen(e.target.value.length)}
-              placeholder="Ex.: usamos IA no atendimento, mas ainda não medimos qualidade, custo por conversa ou falhas por fluxo."
-              required
-              className="input min-h-[128px] resize-none"
-            />
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#FF5722]">Auditoria inicial</p>
+            <h3 className="mt-2 text-2xl font-black tracking-[-0.045em]">Mapear minha IA</h3>
+            <p className="mt-2 text-sm leading-6 text-[#5C5C5C]">
+              Responda 4 passos rápidos. O próprio formulário já ajuda a localizar onde a IA está na operação.
+            </p>
           </div>
+
+          <Field label="Nome *" name="name" type="text" placeholder="Seu nome" required />
+          <Field label="WhatsApp *" name="phone" type="tel" placeholder="+55 (44) 99999-9999" required />
+
+          <ChoiceGroup
+            label="Onde sua empresa usa IA hoje? *"
+            options={aiUseOptions}
+            selected={uses}
+            onToggle={(option) => toggleSelection(option, uses, setUses)}
+          />
+
+          <ChoiceGroup
+            label="Qual suspeita você tem? *"
+            options={suspicionOptions}
+            selected={suspicions}
+            onToggle={(option) => toggleSelection(option, suspicions, setSuspicions)}
+          />
 
           {error && (
             <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
@@ -712,15 +817,56 @@ function ContactForm() {
             disabled={loading}
             className="w-full rounded-[20px] bg-[#0D0D0D] px-6 py-4 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#FF5722] disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? "Enviando…" : "Solicitar análise"}
+            {loading ? "Enviando…" : "Mapear minha IA"}
           </button>
 
           <p className="text-center text-[11px] leading-5 text-[#5C5C5C]">
-            Ao enviar, você concorda em ser contatado sobre o diagnóstico.
+            Ao enviar, você concorda em ser contatado sobre a auditoria inicial.
           </p>
         </form>
       )}
     </div>
+  );
+}
+
+function ChoiceGroup({
+  label,
+  options,
+  selected,
+  onToggle,
+}: {
+  label: string;
+  options: readonly string[];
+  selected: string[];
+  onToggle: (option: string) => void;
+}) {
+  return (
+    <fieldset>
+      <legend className="mb-3 block text-xs font-bold text-[#0D0D0D]/70">{label}</legend>
+      <div className="flex flex-wrap gap-2">
+        {options.map((option) => {
+          const active = selected.includes(option);
+          return (
+            <label
+              key={option}
+              className={`cursor-pointer rounded-full border px-3 py-2 text-xs font-black transition sm:text-sm ${
+                active
+                  ? "border-[#FF5722] bg-[#FF5722] text-white shadow-[0_10px_26px_rgba(255,87,34,0.18)]"
+                  : "border-black/10 bg-[#F4F4F4] text-[#0D0D0D]/74 hover:border-[#FF5722]/45 hover:bg-white"
+              }`}
+            >
+              <input
+                type="checkbox"
+                className="sr-only"
+                checked={active}
+                onChange={() => onToggle(option)}
+              />
+              {active ? "✓ " : ""}{option}
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
   );
 }
 
@@ -1058,6 +1204,17 @@ function DesignCss() {
         transition: transform 180ms ease;
       }
       .hover-link:hover::after { transform: scaleX(1); transform-origin: left; }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        white-space: nowrap;
+        border: 0;
+      }
       .input {
         width: 100%;
         border: 1px solid rgba(13,13,13,0.10);
