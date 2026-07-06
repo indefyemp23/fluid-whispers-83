@@ -9,38 +9,154 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as EbookRouteImport } from './routes/ebook'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicosIndexRouteImport } from './routes/servicos/index'
+import { Route as ServicosSitesPremiumRouteImport } from './routes/servicos/sites-premium'
+import { Route as ServicosOperacaoIaRouteImport } from './routes/servicos/operacao-ia'
+import { Route as ServicosMidiaIaRouteImport } from './routes/servicos/midia-ia'
 
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EbookRoute = EbookRouteImport.update({
+  id: '/ebook',
+  path: '/ebook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicosIndexRoute = ServicosIndexRouteImport.update({
+  id: '/servicos/',
+  path: '/servicos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosSitesPremiumRoute = ServicosSitesPremiumRouteImport.update({
+  id: '/servicos/sites-premium',
+  path: '/servicos/sites-premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosOperacaoIaRoute = ServicosOperacaoIaRouteImport.update({
+  id: '/servicos/operacao-ia',
+  path: '/servicos/operacao-ia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosMidiaIaRoute = ServicosMidiaIaRouteImport.update({
+  id: '/servicos/midia-ia',
+  path: '/servicos/midia-ia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
+  '/ebook': typeof EbookRoute
+  '/sobre': typeof SobreRoute
+  '/servicos/midia-ia': typeof ServicosMidiaIaRoute
+  '/servicos/operacao-ia': typeof ServicosOperacaoIaRoute
+  '/servicos/sites-premium': typeof ServicosSitesPremiumRoute
+  '/servicos/': typeof ServicosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
+  '/ebook': typeof EbookRoute
+  '/sobre': typeof SobreRoute
+  '/servicos/midia-ia': typeof ServicosMidiaIaRoute
+  '/servicos/operacao-ia': typeof ServicosOperacaoIaRoute
+  '/servicos/sites-premium': typeof ServicosSitesPremiumRoute
+  '/servicos': typeof ServicosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contato': typeof ContatoRoute
+  '/ebook': typeof EbookRoute
+  '/sobre': typeof SobreRoute
+  '/servicos/midia-ia': typeof ServicosMidiaIaRoute
+  '/servicos/operacao-ia': typeof ServicosOperacaoIaRoute
+  '/servicos/sites-premium': typeof ServicosSitesPremiumRoute
+  '/servicos/': typeof ServicosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/contato'
+    | '/ebook'
+    | '/sobre'
+    | '/servicos/midia-ia'
+    | '/servicos/operacao-ia'
+    | '/servicos/sites-premium'
+    | '/servicos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/contato'
+    | '/ebook'
+    | '/sobre'
+    | '/servicos/midia-ia'
+    | '/servicos/operacao-ia'
+    | '/servicos/sites-premium'
+    | '/servicos'
+  id:
+    | '__root__'
+    | '/'
+    | '/contato'
+    | '/ebook'
+    | '/sobre'
+    | '/servicos/midia-ia'
+    | '/servicos/operacao-ia'
+    | '/servicos/sites-premium'
+    | '/servicos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContatoRoute: typeof ContatoRoute
+  EbookRoute: typeof EbookRoute
+  SobreRoute: typeof SobreRoute
+  ServicosMidiaIaRoute: typeof ServicosMidiaIaRoute
+  ServicosOperacaoIaRoute: typeof ServicosOperacaoIaRoute
+  ServicosSitesPremiumRoute: typeof ServicosSitesPremiumRoute
+  ServicosIndexRoute: typeof ServicosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ebook': {
+      id: '/ebook'
+      path: '/ebook'
+      fullPath: '/ebook'
+      preLoaderRoute: typeof EbookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +164,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/servicos/': {
+      id: '/servicos/'
+      path: '/servicos'
+      fullPath: '/servicos/'
+      preLoaderRoute: typeof ServicosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos/sites-premium': {
+      id: '/servicos/sites-premium'
+      path: '/servicos/sites-premium'
+      fullPath: '/servicos/sites-premium'
+      preLoaderRoute: typeof ServicosSitesPremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos/operacao-ia': {
+      id: '/servicos/operacao-ia'
+      path: '/servicos/operacao-ia'
+      fullPath: '/servicos/operacao-ia'
+      preLoaderRoute: typeof ServicosOperacaoIaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos/midia-ia': {
+      id: '/servicos/midia-ia'
+      path: '/servicos/midia-ia'
+      fullPath: '/servicos/midia-ia'
+      preLoaderRoute: typeof ServicosMidiaIaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContatoRoute: ContatoRoute,
+  EbookRoute: EbookRoute,
+  SobreRoute: SobreRoute,
+  ServicosMidiaIaRoute: ServicosMidiaIaRoute,
+  ServicosOperacaoIaRoute: ServicosOperacaoIaRoute,
+  ServicosSitesPremiumRoute: ServicosSitesPremiumRoute,
+  ServicosIndexRoute: ServicosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
